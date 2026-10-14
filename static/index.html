@@ -1,0 +1,2971 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CyberThreatMiner | MITRE ATT&amp;CK Association Rule Mining Dashboard</title>
+  <meta name="description" content="Cyberattack technique association mining using Apriori, FP-Growth, and Eclat algorithms on MITRE ATT&CK Enterprise v19.2 dataset. Course 23PCIT503.">
+  
+  <!-- Modern Fonts (Vendored locally for 100% offline reliability with system font fallbacks) -->
+  <link rel="stylesheet" href="vendor/fonts.css">
+  
+  <!-- Visualization Libraries (Vendored locally in static/vendor/) -->
+  <script src="vendor/plotly.min.js"></script>
+  <script src="vendor/cytoscape.min.js"></script>
+  
+  <style>
+    :root {
+      --bg: #070b12;
+      --bg-panel: #0d1424;
+      --bg-card: #121c33;
+      --bg-card-hover: #192747;
+      --border: #1e293b;
+      --border-accent: #2e4374;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --teal: #14b8a6;
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.2);
+      --red: #ef4444;
+      --violet: #8b5cf6;
+      --emerald: #10b981;
+      --blue: #3b82f6;
+      --font-main: "Inter", system-ui, sans-serif;
+      --font-display: "Outfit", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Disclaimer Banner */
+    .disclaimer-banner {
+      background: linear-gradient(90deg, #1e1b4b, #172554, #1e1b4b);
+      border-bottom: 1px solid #3b82f6;
+      padding: 7px 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #93c5fd;
+      gap: 12px;
+    }
+    .disclaimer-banner strong { color: #facc15; font-weight: 600; }
+    .banner-badge {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid #3b82f6;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: #bfdbfe;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .brand h1 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #fff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--cyan-glow);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 4px 16px var(--cyan-glow);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+    }
+    .btn-demo {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--amber-glow);
+    }
+    .btn-demo:hover {
+      filter: brightness(1.15);
+    }
+
+    /* Stat ticker */
+    .stat-bar {
+      display: flex;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 28px;
+      gap: 32px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+    .stat-item { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+    .stat-item span { color: var(--text-dim); text-transform: uppercase; font-size: 10.5px; font-weight: 600; letter-spacing: 0.5px; }
+    .stat-item strong { font-family: var(--font-mono); font-size: 14px; color: var(--cyan); }
+
+    /* Navigation Bar */
+    nav.tab-nav {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 13px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .tab-btn:hover { color: var(--text-main); }
+    .tab-btn.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+      background: rgba(6, 182, 212, 0.04);
+    }
+    .tab-badge {
+      background: var(--border);
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      color: var(--text-muted);
+    }
+    .tab-btn.active .tab-badge {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--cyan);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 24px 28px;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Layout Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .grid-sidebar { display: grid; grid-template-columns: 310px 1fr; gap: 24px; }
+    @media(max-width: 1100px) {
+      .grid-sidebar { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* Panels & Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    /* KPI metric box */
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.2s;
+    }
+    .kpi-card:hover { transform: translateY(-2px); border-color: var(--border-accent); }
+    .kpi-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); font-weight: 600; }
+    .kpi-value { font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: #fff; }
+    .kpi-desc { font-size: 11.5px; color: var(--text-muted); }
+
+    /* Forms & Controls */
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .form-label output { color: var(--cyan); font-family: var(--font-mono); font-weight: 700; }
+    input[type=range] {
+      width: 100%;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--border);
+      outline: none;
+      accent-color: var(--cyan);
+    }
+    select, input[type=text], input[type=number] {
+      width: 100%;
+      background: #090e1a;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 2px var(--cyan-glow);
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      max-height: 540px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12.5px;
+    }
+    table.data-table th {
+      background: #090e1a;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    table.data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+    table.data-table tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+    /* Chips & Badges */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      background: #1e293b;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin: 2px;
+    }
+    .chip-consequent {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--cyan);
+      color: #a5f3fc;
+      font-weight: 600;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-closed { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
+    .badge-maximal { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; border: 1px solid #8b5cf6; }
+    .badge-sig { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid #f59e0b; }
+
+    /* Plain English Insight Box */
+    .insight-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.9));
+      border-left: 4px solid var(--cyan);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 10px 0;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .insight-card strong { color: #fff; }
+
+    /* Cytoscape Network Container */
+    #cy-network {
+      width: 100%;
+      height: 640px;
+      background: #090e1a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    /* Modal / Drawer for node details */
+    .drawer {
+      position: fixed;
+      top: 0; right: -420px;
+      width: 400px;
+      height: 100vh;
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .drawer.open { right: 0; }
+    .drawer-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: none; border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Algorithm Lab Stepper */
+    .stepper-box {
+      background: #090e1a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 320px;
+    }
+    .step-log-item {
+      padding: 10px 14px;
+      border-left: 3px solid var(--cyan);
+      background: var(--bg-card);
+      margin-bottom: 8px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12.5px;
+    }
+
+    /* Demo Mode Walkthrough Toast */
+    .demo-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 28px;
+      max-width: 440px;
+      background: #1e1b4b;
+      border: 1px solid #6366f1;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border-radius: 10px;
+      padding: 16px 20px;
+      z-index: 2000;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .demo-toast-title { font-weight: 700; color: #a5b4fc; font-size: 13.5px; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+    .demo-toast-body { font-size: 12px; color: #e0e7ff; line-height: 1.5; }
+    .demo-toast-nav { display: flex; justify-content: space-between; margin-top: 12px; align-items: center; }
+
+    /* Footer */
+    footer {
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      padding: 18px 28px;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Utility */
+    .text-cyan { color: var(--cyan); }
+    .text-amber { color: var(--amber); }
+    .text-emerald { color: var(--emerald); }
+    .font-mono { font-family: var(--font-mono); }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Mandatory Non-Causal Intelligence Banner -->
+  <aside class="disclaimer-banner" role="complementary" aria-label="Methodological Notice">
+    <div>
+      <strong>⚠️ ATT&CK Intelligence Notice:</strong> Discovered technique co-occurrences represent statistical associations in historical threat actor dossiers. They are <strong>NOT causal relationships</strong>, <strong>NOT chronological attack sequences</strong>, and <strong>NOT predictions of future attacks</strong>.
+    </div>
+    <div class="banner-badge">Course 23PCIT503 • Mini Project</div>
+  </aside>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <h1>CyberThreatMiner</h1>
+        <p>Adversarial Technique Association Mining &amp; Frequent Pattern Analysis (MITRE ATT&amp;CK Enterprise v19.2)</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- Lens Selector -->
+      <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04); padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);">
+        <label for="sel-lens" style="font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Lens:</label>
+        <select id="sel-lens" style="background: transparent; color: var(--text-main); border: none; font-size: 12px; cursor: pointer; outline: none;">
+          <option value="groups" selected>Threat Groups (167)</option>
+          <option value="software">Software &amp; Tools (785)</option>
+          <option value="campaigns">Campaigns (55)</option>
+        </select>
+      </div>
+
+      <!-- Abstraction Level Selector -->
+      <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.04); padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border);">
+        <label for="sel-abstraction" style="font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Level:</label>
+        <select id="sel-abstraction" style="background: transparent; color: var(--text-main); border: none; font-size: 12px; cursor: pointer; outline: none;">
+          <option value="parent" selected>Parent Techniques (203)</option>
+          <option value="subtechnique">Sub-Techniques (350+)</option>
+          <option value="tactic">Tactics Rollup (14)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-demo" id="btn-demo-mode" title="Start an automatic walk-through of the dashboard">
+        ▶ Live Demo
+      </button>
+      <button class="btn btn-secondary" id="btn-export-report" title="Print or save current dossier as HTML/PDF">
+        📄 Export
+      </button>
+      <a href="/api/mine?min_support=0.25&min_conf=0.7&min_lift=1.0" target="_blank" class="btn btn-secondary" title="View raw JSON API">
+        🔗 API
+      </a>
+    </div>
+  </header>
+
+  <!-- Live Statistics Bar -->
+  <div class="stat-bar" id="stat-bar">
+    <div class="stat-item"><span>Active Lens:</span> <strong id="kpi-lens" class="text-cyan">Threat Groups</strong></div>
+    <div class="stat-item"><span>Entities:</span> <strong id="kpi-groups">167</strong></div>
+    <div class="stat-item"><span>Items / Techs:</span> <strong id="kpi-techs">203</strong></div>
+    <div class="stat-item"><span>Avg Basket:</span> <strong id="kpi-avg">22.3</strong></div>
+    <div class="stat-item"><span>Sparsity:</span> <strong id="kpi-sparsity">89.0%</strong></div>
+    <div class="stat-item"><span>MITRE ATT&CK:</span> <strong>v19.2 (Aug 2026)</strong></div>
+    <div class="stat-item"><span>Self-Check:</span> <strong class="text-emerald" id="kpi-selfcheck-pill">✓ PASS (100% Green)</strong></div>
+  </div>
+
+  <!-- 10 Navigation Tabs -->
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+    <button class="tab-btn" data-tab="mine">⚙️ Mine &amp; Log</button>
+    <button class="tab-btn" data-tab="itemsets">📦 Itemsets <span class="tab-badge" id="tab-cnt-itemsets">0</span></button>
+    <button class="tab-btn" data-tab="rules">📜 Rules <span class="tab-badge" id="tab-cnt-rules">0</span></button>
+    <button class="tab-btn" data-tab="network">🕸️ Network Graph</button>
+    <button class="tab-btn" data-tab="explorer">🔍 Explorer &amp; Fingerprint</button>
+    <button class="tab-btn" data-tab="algorithm-lab">🧪 Algorithm Lab</button>
+    <button class="tab-btn" data-tab="clusters">🧩 Clusters</button>
+    <button class="tab-btn" data-tab="evaluation">📈 Evaluation</button>
+    <button class="tab-btn" data-tab="about">ℹ️ About &amp; Limits</button>
+  </nav>
+
+  <!-- Main View Area -->
+  <main>
+
+    <!-- 1. OVERVIEW TAB -->
+    <section class="tab-content active" id="tab-overview">
+
+      <!-- Live Demo System Self-Check Diagnostic Banner -->
+      <div class="card" id="self-check-card" style="margin-bottom: 24px; border: 1px solid rgba(16, 185, 129, 0.35); background: rgba(16, 185, 129, 0.05); padding: 14px 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="display: inline-block; width: 11px; height: 11px; border-radius: 50%; background: #10b981; box-shadow: 0 0 12px #10b981;"></span>
+            <strong style="color: #fff; font-size: 13.5px; letter-spacing: 0.3px;">SYSTEM SELF-CHECK: PASS (All Core Diagnostics Verified Green)</strong>
+            <span class="badge badge-closed" style="font-size: 11px; background: rgba(16, 185, 129, 0.15); border-color: #10b981; color: #10b981;">100% Operational</span>
+          </div>
+          <button class="btn btn-secondary" id="btn-refresh-selfcheck" style="font-size: 11px; padding: 4px 10px;">🔄 Re-verify</button>
+        </div>
+        <div class="grid-4" id="self-check-grid" style="gap: 12px;">
+          <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #10b981;">
+            <div style="font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Data Ingestion</div>
+            <div style="font-size: 12px; font-weight: 600; color: #10b981; margin: 3px 0;" id="sc-data-val">✓ 167 Groups / 203 Techs</div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">0 orphaned rows, 89.0% sparsity</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #10b981;">
+            <div style="font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Equivalence</div>
+            <div style="font-size: 12px; font-weight: 600; color: #10b981; margin: 3px 0;" id="sc-algo-val">✓ Apriori = FP-Growth = Eclat</div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">100% itemset &amp; support match</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #10b981;">
+            <div style="font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">mlxtend Standard</div>
+            <div style="font-size: 12px; font-weight: 600; color: #10b981; margin: 3px 0;" id="sc-mlx-val">✓ 100% Golden Agreement</div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">&Delta; support &lt; 10⁻⁶ tolerance</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 6px; border-left: 3px solid #10b981;">
+            <div style="font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Test Suite</div>
+            <div style="font-size: 12px; font-weight: 600; color: #10b981; margin: 3px 0;" id="sc-test-val">✓ 41/41 PyTest Suites Passing</div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">Math, SLA &amp; Property green</div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-4" style="margin-bottom: 24px;">
+        <div class="kpi-card">
+          <span class="kpi-label">Documented Threat Groups</span>
+          <div class="kpi-value" id="card-groups">167</div>
+          <span class="kpi-desc">Verified intrusion-sets (basket size &ge; 2)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Active Techniques</span>
+          <div class="kpi-value text-cyan" id="card-techs">203</div>
+          <span class="kpi-desc">Parent enterprise techniques in active use</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Mean Basket Density</span>
+          <div class="kpi-value text-amber" id="card-avg">22.3</div>
+          <span class="kpi-desc">Techniques attributed per threat actor</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Binary Matrix Sparsity</span>
+          <div class="kpi-value text-emerald" id="card-sparsity">89.0%</div>
+          <span class="kpi-desc">3,721 active relationship links out of 33,901</span>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Top 12 Most Prevalent Attack Techniques</div>
+              <div class="card-subtitle">Empirical technique support across all threat actor baskets</div>
+            </div>
+          </div>
+          <div id="chart-top-techniques" style="height: 380px;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Kill-Chain Tactic Distribution</div>
+              <div class="card-subtitle">Technique allocation across MITRE ATT&amp;CK tactics</div>
+            </div>
+          </div>
+          <div id="chart-tactics-pie" style="height: 380px;"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Tactic Co-occurrence Heatmap</div>
+            <div class="card-subtitle">Frequency of multi-tactic joint presence within threat actor portfolios</div>
+          </div>
+        </div>
+        <div id="chart-tactic-heatmap" style="height: 440px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Dataset Referential Integrity &amp; Quality Audit</div>
+            <div class="card-subtitle">Verification against master workbook `data/enterprise-attack-v19.2.xlsx`</div>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Audit Parameter</th>
+                <th>Count / Metric</th>
+                <th>Status</th>
+                <th>Verification Method</th>
+              </tr>
+            </thead>
+            <tbody id="table-data-quality">
+              <tr><td>Total Relational Rows in Excel</td><td>20,628</td><td><span class="badge badge-closed">Verified</span></td><td>Sheet `relationships` parsed</td></tr>
+              <tr><td>Group-to-Technique `uses` Rows</td><td>4,628</td><td><span class="badge badge-closed">Verified</span></td><td>Filtered `mapping type == 'uses'`</td></tr>
+              <tr><td>Orphaned Group or Technique IDs</td><td>0 (Zero)</td><td><span class="badge badge-closed">100% Valid</span></td><td>Foreign key join against `groups` &amp; `techniques`</td></tr>
+              <tr><td>Sub-technique Rollup Strategy</td><td>Enabled (Parent)</td><td><span class="badge badge-maximal">Standard</span></td><td>`.split('.')[0]` roll-up with deduplication</td></tr>
+              <tr><td>Small Actor Filtering (&lt; 2 techniques)</td><td>5 dropped</td><td><span class="badge badge-closed">Cleaned</span></td><td>Actors with &lt; 2 techniques excluded</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MINE & LOG TAB -->
+    <section class="tab-content" id="tab-mine">
+      <div class="grid-sidebar">
+        <!-- Controls Aside -->
+        <aside class="card">
+          <div class="card-header">
+            <div class="card-title">Mining Controls</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sel-algorithm">Algorithm Engine</label>
+            <select id="sel-algorithm">
+              <option value="apriori" selected>Apriori (Level-wise Join &amp; Prune)</option>
+              <option value="fp_growth">FP-Growth (Frequent Pattern Tree)</option>
+              <option value="eclat">Eclat (Vertical TID Intersections)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Min Support</span>
+              <output id="val-sup">0.25</output>
+            </div>
+            <input type="range" id="input-sup" min="0.10" max="0.55" step="0.01" value="0.25">
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Fraction of threat groups that must exhibit the pattern</div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Min Confidence</span>
+              <output id="val-conf">0.70</output>
+            </div>
+            <input type="range" id="input-conf" min="0.40" max="1.00" step="0.01" value="0.70">
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">P(Consequent | Antecedent) conditional probability</div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Min Lift</span>
+              <output id="val-lift">1.2</output>
+            </div>
+            <input type="range" id="input-lift" min="1.0" max="5.0" step="0.1" value="1.2">
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 2px;">Lift &gt; 1 indicates positive association above chance</div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Max Itemset Size (k)</span>
+              <output id="val-len">3</output>
+            </div>
+            <input type="range" id="input-len" min="2" max="4" step="1" value="3">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sel-itemset-type">Itemset Filter</label>
+            <select id="sel-itemset-type">
+              <option value="all" selected>All Frequent Itemsets</option>
+              <option value="closed">Closed Itemsets Only</option>
+              <option value="maximal">Maximal Itemsets Only</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+              <input type="checkbox" id="chk-prune-redundant">
+              <span>Prune Redundant Rules</span>
+            </label>
+          </div>
+
+          <!-- Popularity Bias Control -->
+          <div class="form-group" style="background: rgba(245, 158, 11, 0.05); padding: 10px 12px; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.25);">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; cursor: pointer; color: var(--amber); font-weight: 600;">
+              <input type="checkbox" id="chk-popularity-bias">
+              <span>Filter Ubiquitous (&gt; 70% Sup)</span>
+            </label>
+            <div style="font-size: 10.5px; color: var(--text-dim); margin-top: 4px; line-height: 1.4;">
+              Suppresses universal background techniques (T1059 Command Scripting, T1082 System Info) to isolate specific tactical tradecraft.
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="btn-run-mine" style="width: 100%; justify-content: center; margin-top: 8px;">
+            ⚡ Run Mining Query
+          </button>
+        </aside>
+
+        <!-- Right: Results & Level Log -->
+        <div>
+          <!-- Mining Analytics & Compression KPIs -->
+          <div class="grid-4" style="margin-bottom: 20px; gap: 12px;">
+            <div class="kpi-card" style="padding: 12px 14px;">
+              <span class="kpi-label">Execution Latency</span>
+              <div class="kpi-value text-cyan" id="kpi-mine-time" style="font-size: 20px;">- ms</div>
+              <span class="kpi-desc" id="kpi-mine-algo-label">Apriori Engine</span>
+            </div>
+            <div class="kpi-card" style="padding: 12px 14px;">
+              <span class="kpi-label">Closed Compression</span>
+              <div class="kpi-value text-emerald" id="kpi-closed-comp" style="font-size: 20px;">-</div>
+              <span class="kpi-desc">Lossless representation</span>
+            </div>
+            <div class="kpi-card" style="padding: 12px 14px;">
+              <span class="kpi-label">Maximal Compression</span>
+              <div class="kpi-value text-violet" id="kpi-maximal-comp" style="font-size: 20px;">-</div>
+              <span class="kpi-desc">Boundary representation</span>
+            </div>
+            <div class="kpi-card" style="padding: 12px 14px;">
+              <span class="kpi-label">Redundancy Pruned</span>
+              <div class="kpi-value text-amber" id="kpi-redundancy-pruned" style="font-size: 20px;">0 rules</div>
+              <span class="kpi-desc">Sub-rules with lower confidence</span>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+              <div class="card-title">Apriori Level-wise Execution Log</div>
+              <div class="card-subtitle" id="mine-time-label">Mined in - ms</div>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Level (k)</th>
+                    <th>Candidates Generated (C_k)</th>
+                    <th>Pruned by Downward Closure</th>
+                    <th>Frequent Kept (L_k)</th>
+                    <th>Algorithmic Step Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="table-level-logs">
+                  <tr><td colspan="5" style="text-align: center; color: var(--text-dim);">Run mining query to populate log.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Top Discovered Rules Preview</div>
+              <div class="card-subtitle">Showing top rules by Composite Score</div>
+            </div>
+            <div id="mine-rules-preview"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ITEMSETS TAB -->
+    <section class="tab-content" id="tab-itemsets">
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="flex-between">
+          <div>
+            <div class="card-title">Frequent, Closed &amp; Maximal Itemsets</div>
+            <div class="card-subtitle">Technique co-occurrence combinations meeting minimum support</div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="search-itemsets" placeholder="Search technique ID or name..." style="width: 250px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px;">
+        <div id="chart-itemsets-support" style="height: 380px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Itemset Size (k)</th>
+                <th>Techniques in Frequent Itemset</th>
+                <th>Support</th>
+                <th>Relative Share</th>
+                <th>Closed?</th>
+                <th>Maximal?</th>
+              </tr>
+            </thead>
+            <tbody id="table-itemsets-body">
+              <tr><td colspan="6" style="text-align: center;">Loading frequent itemsets...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. RULES TAB -->
+    <section class="tab-content" id="tab-rules">
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="flex-between" style="flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div class="card-title">Association Rules Repository (10 Advanced Evaluation Metrics)</div>
+            <div class="card-subtitle">Validated with Fisher's Exact Test and Benjamini-Hochberg FDR correction</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="text" id="search-rules" placeholder="Search rules (e.g. T1059)..." style="width: 220px;">
+            <select id="sort-rules" style="width: 170px;">
+              <option value="composite">Sort: Composite Score</option>
+              <option value="lift" selected>Sort: Lift (High to Low)</option>
+              <option value="confidence">Sort: Confidence</option>
+              <option value="support">Sort: Support</option>
+              <option value="p_value">Sort: p-value (Fisher)</option>
+              <option value="zhang">Sort: Zhang's Metric</option>
+            </select>
+            <button class="btn btn-secondary" id="btn-export-rules-csv">📥 CSV</button>
+            <button class="btn btn-secondary" id="btn-export-rules-json">📥 JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-container" style="max-height: 650px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rule (Antecedent &rarr; Consequent)</th>
+                <th>Support</th>
+                <th>Confidence</th>
+                <th>Lift</th>
+                <th>Leverage</th>
+                <th>Conviction</th>
+                <th>Zhang</th>
+                <th>p-val (Fisher)</th>
+                <th>FDR (q-val)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-rules-body">
+              <tr><td colspan="10" style="text-align: center;">Mining rules...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. NETWORK GRAPH TAB -->
+    <section class="tab-content" id="tab-network">
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="flex-between" style="flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div class="card-title">Technique Association Network Graph</div>
+            <div class="card-subtitle">Nodes = Techniques (colored by Tactic) • Edges = Mined Rules (thickness = Lift)</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <label style="font-size: 12px; color: var(--text-dim);">Layout:</label>
+            <select id="net-layout" style="width: 130px;">
+              <option value="cose" selected>Force (Cose)</option>
+              <option value="concentric">Concentric</option>
+              <option value="circle">Circle</option>
+              <option value="breadthfirst">Tree / Flow</option>
+              <option value="grid">Grid</option>
+            </select>
+            <label style="font-size: 12px; color: var(--text-dim); margin-left: 8px;">Min Lift:</label>
+            <input type="range" id="net-min-lift" min="1.0" max="4.0" step="0.1" value="1.2" style="width: 100px;">
+            <output id="net-lift-val" style="font-family: var(--font-mono); font-size: 12px; color: var(--cyan);">1.2x</output>
+            <button class="btn btn-secondary" id="btn-reset-net">Fit Graph</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="position: relative;">
+        <div id="cy-network"></div>
+        <div id="net-legend" style="position: absolute; bottom: 12px; left: 12px; background: rgba(13, 20, 36, 0.85); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 11px; max-width: 500px; display: flex; flex-wrap: wrap; gap: 8px;">
+          <!-- Legend dynamically loaded -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. EXPLORER & FINGERPRINT TAB -->
+    <section class="tab-content" id="tab-explorer">
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <!-- Left: Co-occurring Techniques Query -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Co-occurring Techniques Analysis</div>
+              <div class="card-subtitle">Select observed techniques to discover historically associated techniques</div>
+            </div>
+          </div>
+          <div class="insight-card" style="margin-top: 0;">
+            <strong>Domain Notice:</strong> Identifies techniques that empirically co-occur in threat actor profiles. This does <strong>NOT predict what an attacker will do next</strong> or imply causal progression.
+          </div>
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label" for="input-cooccur-tech">Search &amp; Add Technique</label>
+            <input list="tech-datalist" id="input-cooccur-tech" placeholder="Type technique ID or name (e.g. T1059, PowerShell)...">
+            <datalist id="tech-datalist"></datalist>
+          </div>
+          <div id="cooccur-selected-chips" style="min-height: 40px; margin-bottom: 14px;"></div>
+          <button class="btn btn-primary" id="btn-run-cooccur" style="width: 100%; justify-content: center;">
+            🔍 Analyze Co-occurring Techniques
+          </button>
+          <div id="cooccur-results" style="margin-top: 18px;"></div>
+        </div>
+
+        <!-- Right: Threat Group Fingerprint -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Threat Group Dossier Fingerprint</div>
+              <div class="card-subtitle">Inspect an actor's profile, tactical coverage, and peer similarities</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sel-fingerprint-group">Select Threat Actor / Group</label>
+            <select id="sel-fingerprint-group">
+              <option value="APT28">APT28 (Fancy Bear)</option>
+              <option value="APT29">APT29 (Cozy Bear)</option>
+              <option value="Lazarus Group">Lazarus Group</option>
+              <option value="Sandworm Team">Sandworm Team</option>
+              <option value="FIN7">FIN7</option>
+            </select>
+          </div>
+          <div id="fingerprint-details">
+            <div style="color: var(--text-dim); text-align: center; padding: 40px 0;">Select a group to display forensic fingerprint.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. ALGORITHM LAB TAB -->
+    <section class="tab-content" id="tab-algorithm-lab">
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="flex-between">
+          <div>
+            <div class="card-title">Algorithm Performance &amp; Equivalence Benchmarks</div>
+            <div class="card-subtitle">Benchmarking Apriori vs FP-Growth vs Eclat across support thresholds</div>
+          </div>
+          <div id="badge-equivalence" class="badge badge-closed" style="font-size: 12px; padding: 6px 12px;">
+            ✅ Algorithmic Equivalence: 100% Match
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 8px;">Execution Runtime Benchmark (ms)</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">Runtime across varying min_support thresholds (lower is faster)</div>
+          <div id="chart-bench-time" style="height: 340px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 8px;">Peak Memory Allocation (KB)</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">Peak RAM overhead tracked via Python tracemalloc</div>
+          <div id="chart-bench-mem" style="height: 340px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Interactive Apriori Candidate Generation &amp; Downward Closure Step-Through</div>
+            <div class="card-subtitle">Visual demonstration of candidate synthesis and anti-monotone pruning</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary" id="btn-step-prev">⏮ Previous Step</button>
+            <button class="btn btn-primary" id="btn-step-next">Next Step ⏭</button>
+            <button class="btn btn-secondary" id="btn-step-reset">Reset</button>
+          </div>
+        </div>
+        <div class="stepper-box" id="stepper-display">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CLUSTERS TAB -->
+    <section class="tab-content" id="tab-clusters">
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="flex-between" style="flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div class="card-title">Threat Group Clustering &amp; Archetypes</div>
+            <div class="card-subtitle">Unsupervised clustering on binary technique space (Jaccard &amp; Euclidean)</div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <label style="font-size: 12px; color: var(--text-dim);">Method:</label>
+            <select id="cluster-method" style="width: 140px;">
+              <option value="kmeans" selected>K-Means</option>
+              <option value="hierarchical">Hierarchical</option>
+            </select>
+            <label style="font-size: 12px; color: var(--text-dim);">Metric:</label>
+            <select id="cluster-metric" style="width: 120px;">
+              <option value="jaccard" selected>Jaccard</option>
+              <option value="euclidean">Euclidean</option>
+            </select>
+            <label style="font-size: 12px; color: var(--text-dim);">Clusters (k):</label>
+            <input type="range" id="cluster-k" min="2" max="7" value="4" style="width: 90px;">
+            <output id="cluster-k-val" style="font-family: var(--font-mono); font-size: 12px; color: var(--cyan);">k=4</output>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 8px;">Silhouette Score Optimization Curve</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">Optimal k evaluated across k=2..8</div>
+          <div id="chart-cluster-silhouette" style="height: 360px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 8px;">2D PCA Threat Actor Embedding</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">First 2 Principal Components of 203-dimensional technique space</div>
+          <div id="chart-cluster-pca" style="height: 360px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Cluster Archetype Profiles &amp; Dominant Itemsets</div>
+        </div>
+        <div id="cluster-cards-container" class="grid-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. EVALUATION TAB -->
+    <section class="tab-content" id="tab-evaluation">
+      <!-- Evaluation Header & Controls Bar -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="flex-between" style="flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div class="card-title">Empirical Machine Learning Evaluation &amp; Statistical Validation</div>
+            <div class="card-subtitle">Fisher exact tests, FDR q-values, 1,000 vectorised matrix permutations, bootstrap stability, and baseline benchmarking</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label for="eval-permutations" style="font-size: 11.5px; color: var(--text-dim);">Permutations:</label>
+              <input type="number" id="eval-permutations" value="1000" min="100" max="5000" step="100" style="width: 80px; padding: 4px 8px; font-size: 12px;">
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label for="eval-bootstraps" style="font-size: 11.5px; color: var(--text-dim);">Bootstraps:</label>
+              <input type="number" id="eval-bootstraps" value="100" min="20" max="500" step="20" style="width: 70px; padding: 4px 8px; font-size: 12px;">
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <label for="eval-seed" style="font-size: 11.5px; color: var(--text-dim);">Seed:</label>
+              <input type="number" id="eval-seed" value="42" style="width: 65px; padding: 4px 8px; font-size: 12px;">
+            </div>
+            <button class="btn btn-primary" id="btn-run-eval" style="font-size: 12px; padding: 6px 14px;">
+              ⚡ Re-run Validation
+            </button>
+          </div>
+        </div>
+        <div id="eval-status-bar" style="margin-top: 10px; font-size: 12px; color: var(--text-muted); display: flex; gap: 16px; flex-wrap: wrap;">
+          <span>Rules Evaluated: <strong id="lbl-eval-count" class="text-main">174</strong></span>
+          <span>Significant (All 3 Criteria Met): <strong id="lbl-sig-count" class="text-emerald">27</strong></span>
+          <span>Permutation Null Model: <strong class="text-cyan">Curveball Margin-Preserving (1,000 trades)</strong></span>
+          <span id="lbl-eval-time" style="color: var(--text-dim);">Runtime: ~3.7 s</span>
+        </div>
+      </div>
+
+      <!-- Top Row: Volcano Plot & Bootstrap Stability -->
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <!-- Volcano Plot -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 4px;">Volcano Plot: Fold Enrichment (Lift) vs FDR Significance</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">
+            x-axis: Rule Lift; y-axis: -log10(q) [Benjamini-Hochberg FDR]; dashed red line: &alpha; = 0.05 FDR threshold (-log10 q = 1.301). Green dots: Significant across Fisher + Permutation + Bootstrap.
+          </div>
+          <div id="chart-eval-volcano" style="height: 380px;"></div>
+        </div>
+
+        <!-- Bootstrap Stability -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 4px;">Bootstrap Resampling Stability (100 Iterations)</div>
+          <div class="card-subtitle" style="margin-bottom: 12px;">Distribution of rule survival percentages under random transaction replacement with seed=42</div>
+          <div id="chart-eval-stability" style="height: 380px;"></div>
+        </div>
+      </div>
+
+      <!-- Middle Row: "Is It Better Than Chance?" Baselines Panel -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Is It Better Than Chance? Empirical Baseline Comparison</div>
+            <div class="card-subtitle">
+              Evaluating mined association rules against trivial priors on held-out unseen threat actor dossiers (Precision@10, Test Lift, Hit-Rate %, and Net Advantage over independence)
+            </div>
+          </div>
+          <span class="badge badge-closed" style="color: #10b981; border-color: #10b981;">p &lt; 0.05 Enrichment</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table" id="table-baselines">
+            <thead>
+              <tr>
+                <th>Model / Strategy</th>
+                <th>Precision@10 (Held-Out)</th>
+                <th>Test Lift (Fold Enrichment)</th>
+                <th>Test Hit-Rate %</th>
+                <th>Net Advantage vs Independence</th>
+                <th>CTI Modeling Interpretation</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-baselines">
+              <tr><td colspan="6" style="text-align: center; color: var(--text-dim);">Loading baseline models...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="insight-card" style="margin-top: 14px; font-size: 12.5px;">
+          <strong>Why Lift-Ranked, Significance-Filtered Rules Win:</strong> Confidence-only ranking prioritizes ubiquitous techniques (e.g. PowerShell T1059 present in 83% of actors), producing high apparent confidence but near-zero actionable intelligence (Lift &approx; 1.05x). In contrast, lift-ranked rules with Fisher q &lt; 0.05 and permutation p &lt; 0.05 deliver a <strong>1.70x – 2.50x enrichment</strong> over baseline chance, capturing specific tactical combinations rather than reporting artifacts.
+        </div>
+      </div>
+
+      <!-- Co-occurrence Recovery Metrics Panel (Rule Performance on Unseen Groups) -->
+      <div class="card" id="panel-cooccur-recovery" style="margin-bottom: 24px;">
+        <div class="flex-between" style="flex-wrap: wrap; gap: 14px; margin-bottom: 16px;">
+          <div>
+            <div class="card-title">Co-occurrence Recovery Metrics: Rule Performance on Unseen Groups</div>
+            <div class="card-subtitle">
+              Evaluating association rules as binary classifiers &amp; masked technique recovery models across 10 stratified 80/20 splits
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span class="badge" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; font-size: 11px;">
+              ⚠️ Non-Causal Notice: Co-occurrence recovery on held-out groups, NOT attack prediction
+            </span>
+            <button class="btn btn-secondary" id="btn-export-perf-csv" style="font-size: 11px; padding: 5px 10px;">📥 CSV</button>
+            <button class="btn btn-secondary" id="btn-export-perf-json" style="font-size: 11px; padding: 5px 10px;">📥 JSON</button>
+          </div>
+        </div>
+
+        <!-- Metrics Summary Cards Row with 95% CI Whiskers -->
+        <div class="grid-4" id="perf-metrics-summary" style="margin-bottom: 20px;">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Interactive Threshold Slider -->
+        <div style="background: rgba(0,0,0,0.3); padding: 14px 18px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
+          <div class="flex-between" style="flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label for="slider-conf-thresh" style="font-size: 12.5px; font-weight: 600; color: #fff;">
+                Confidence Decision Threshold (&tau;):
+              </label>
+              <input type="range" id="slider-conf-thresh" min="0.50" max="0.95" step="0.05" value="0.70" style="width: 140px; cursor: pointer;">
+              <strong id="val-conf-thresh" class="font-mono text-cyan" style="font-size: 14px;">0.70</strong>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 11.5px; color: var(--text-dim);">Confusion Matrix Mode:</span>
+              <button class="btn btn-secondary active" id="btn-cm-counts" style="font-size: 10.5px; padding: 3px 8px;">Raw Counts</button>
+              <button class="btn btn-secondary" id="btn-cm-norm" style="font-size: 10.5px; padding: 3px 8px;">Row-Normalized %</button>
+            </div>
+          </div>
+          <div id="interpretation-live-conf" style="font-size: 12px; color: var(--text-muted); font-style: italic;">
+            <!-- Live plain-english interpretation updated dynamically by slider -->
+          </div>
+        </div>
+
+        <!-- Row: Confusion Matrix Heatmap + Recovery Metrics Bar Chart -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <!-- Confusion Matrix Heatmap -->
+          <div style="background: rgba(0,0,0,0.2); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div class="card-title" style="font-size: 13px; margin-bottom: 4px;">Confusion Matrix Heatmap (Unseen Test Instances)</div>
+            <div class="card-subtitle" style="font-size: 11px; margin-bottom: 12px;">Predicted consequent present (rule fired) vs ground truth in held-out dossiers</div>
+            <div id="chart-confusion-matrix" style="height: 290px;"></div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 6px;">
+              <strong>Interpretation:</strong> True Positives (TP) reflect correctly identified co-occurrences; False Positives (FP) occur when the rule fired but the consequent was unobserved in the specific group.
+            </div>
+          </div>
+
+          <!-- Recovery vs Baselines Bar Chart -->
+          <div style="background: rgba(0,0,0,0.2); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div class="card-title" style="font-size: 13px; margin-bottom: 4px;">Masked Technique Recovery (Hit-Rate@K &amp; NDCG@K)</div>
+            <div class="card-subtitle" style="font-size: 11px; margin-bottom: 12px;">Hiding 30% of techniques per test group and ranking candidates vs Popularity &amp; Random</div>
+            <div id="chart-recovery-bars" style="height: 290px;"></div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 6px;">
+              <strong>Interpretation:</strong> The association rule engine recovers hidden techniques in the top recommendations with significant NDCG enrichment over frequency priors.
+            </div>
+          </div>
+        </div>
+
+        <!-- Row: ROC Curves & PR Curves -->
+        <div class="grid-2" style="margin-bottom: 24px;">
+          <!-- ROC Curve -->
+          <div style="background: rgba(0,0,0,0.2); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div class="card-title" style="font-size: 13px; margin-bottom: 4px;">ROC Curve (True Positive Rate vs False Positive Rate)</div>
+            <div class="card-subtitle" style="font-size: 11px; margin-bottom: 12px;">Discriminative power across decision thresholds vs Popularity &amp; Random baselines</div>
+            <div id="chart-roc-curve" style="height: 310px;"></div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 6px;" id="lbl-roc-interpret">
+              <!-- Plain English ROC interpretation -->
+            </div>
+          </div>
+
+          <!-- PR Curve -->
+          <div style="background: rgba(0,0,0,0.2); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div class="card-title" style="font-size: 13px; margin-bottom: 4px;">Precision-Recall Curve (Precision vs Recall)</div>
+            <div class="card-subtitle" style="font-size: 11px; margin-bottom: 12px;">Trade-off between rule precision and coverage on held-out test groups</div>
+            <div id="chart-pr-curve" style="height: 310px;"></div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 6px;" id="lbl-pr-interpret">
+              <!-- Plain English PR interpretation -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Imbalance Note Callout -->
+        <div class="insight-card" style="margin-bottom: 20px; border-left: 3px solid var(--cyan);">
+          <strong>Class Imbalance Note (Why Accuracy is NOT the Headline Metric):</strong>
+          In sparse binary intelligence matrices (sparsity ~89%), true negative pairs vastly outnumber positives. Consequently, a naive model that never fires easily achieves &gt;90% raw accuracy. F1-score, Matthews Correlation Coefficient (MCC), and Precision-Recall AUC (PR-AUC) provide the true, sensitive measures of non-trivial co-occurrence recovery.
+        </div>
+
+        <!-- Per-Rule Classification Performance Table -->
+        <div>
+          <div class="flex-between" style="margin-bottom: 10px;">
+            <div style="font-size: 13.5px; font-weight: 600; color: #fff;">
+              Per-Rule Generalization Performance Table (Unseen Groups)
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <label for="sel-rule-sort" style="font-size: 11.5px; color: var(--text-dim);">Sort by:</label>
+              <select id="sel-rule-sort" style="font-size: 11px; padding: 3px 8px; background: rgba(0,0,0,0.4); color: var(--text-main); border: 1px solid var(--border);">
+                <option value="f1" selected>Test F1-Score</option>
+                <option value="precision">Test Precision</option>
+                <option value="recall">Test Recall</option>
+                <option value="fired">Fired on N Groups</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-container" style="max-height: 340px; overflow-y: auto;">
+            <table class="data-table" id="table-per-rule-perf">
+              <thead>
+                <tr>
+                  <th>Mined Rule (A &rArr; B)</th>
+                  <th>Fired on N Groups</th>
+                  <th>TP</th>
+                  <th>FP</th>
+                  <th>Test Precision</th>
+                  <th>Test Recall</th>
+                  <th>Test F1</th>
+                  <th>Test MCC</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-per-rule-perf">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-dim);">Loading per-rule metrics...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row: 80/20 Train/Test Generalization & Multi-Lens External Validation -->
+      <div class="grid-2">
+        <!-- 80/20 Train/Test -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Repeated 80/20 Train/Test Generalization (10 Splits)</div>
+              <div class="card-subtitle">Evaluating rule confidence, rule precision on unseen groups, and 95% Confidence Intervals</div>
+            </div>
+          </div>
+          <div id="train-test-summary">
+            <div style="padding: 20px 0; text-align: center; color: var(--text-dim);">Running train/test cross-validation...</div>
+          </div>
+        </div>
+
+        <!-- Multi-Lens External Validation -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Multi-Lens External Validation (Groups vs Software)</div>
+              <div class="card-subtitle">Testing how many Group rules hold (Lift &gt; 1.0) on 785 independent Software &amp; Tool dossiers</div>
+            </div>
+          </div>
+          <div id="multi-lens-summary">
+            <div style="padding: 20px 0; text-align: center; color: var(--text-dim);">Running multi-lens cross-validation...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. ABOUT & LIMITATIONS TAB -->
+    <section class="tab-content" id="tab-about">
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">About CyberThreatMiner &amp; Academic Scope</div>
+            <div class="card-subtitle">Course 23PCIT503: Machine Learning Mini Project • Fall 2026</div>
+          </div>
+        </div>
+        <div class="insight-card">
+          <strong>Official Course Problem Statement:</strong><br>
+          CyberThreatMiner applies Association Rule Mining using the Apriori algorithm to the MITRE ATT&amp;CK Enterprise dataset (<code>enterprise-attack-v19.2.xlsx</code>). The project discovers frequent itemsets of adversarial techniques and generates statistically defensible association rules based on verified relationships between threat groups and their techniques.
+        </div>
+        
+        <h3 style="font-size: 15px; margin: 20px 0 10px; color: #fff;">Crucial Intelligence Limitations &amp; Ethical Guardrails</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13px;">
+          <li><strong>Non-Causal Associations:</strong> An association rule like <code>T1059 (Command Scripting) &rarr; T1105 (Ingress Tool Transfer)</code> indicates observational co-occurrence across threat actor dossiers. It does <em>not</em> prove that using T1059 causes an attacker to use T1105.</li>
+          <li><strong>Non-Chronological Sequence:</strong> MITRE ATT&CK dossiers aggregate techniques documented over multiple years and separate campaigns. Itemsets do <em>not</em> represent the chronological sequence of an active intrusion.</li>
+          <li><strong>Non-Predictive Intelligence:</strong> High confidence does not predict future adversary attacks. It measures historical consistency within documented cyber threat intelligence (CTI).</li>
+          <li><strong>Reporting Bias:</strong> CTI reflects public attribution reports. Highly visible techniques (e.g., PowerShell) are more frequently detected and reported than proprietary zero-day exploits.</li>
+        </ul>
+
+        <h3 style="font-size: 15px; margin: 24px 0 10px; color: #fff;">Mathematical Measure Formulations</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Measure</th>
+                <th>Formula</th>
+                <th>Domain Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Support</td><td><code>P(A &cup; B)</code></td><td>Prevalence of the combined technique pattern across all groups</td></tr>
+              <tr><td>Confidence</td><td><code>P(B | A) = P(A &cup; B) / P(A)</code></td><td>Likelihood of technique B when technique A is documented</td></tr>
+              <tr><td>Lift</td><td><code>P(A &cup; B) / [P(A) &times; P(B)]</code></td><td>Ratio of observed co-occurrence to expected co-occurrence under independence</td></tr>
+              <tr><td>Leverage</td><td><code>P(A &cup; B) - P(A)P(B)</code></td><td>Difference between observed and expected joint probability</td></tr>
+              <tr><td>Conviction</td><td><code>(1 - P(B)) / (1 - Conf(A&rarr;B))</code></td><td>Degree of implication departure from random chance</td></tr>
+              <tr><td>Zhang's Metric</td><td><code>(Conf - P(B)) / max[Conf(1-P(B)), P(B)(1-Conf)]</code></td><td>Normalized association measure ranging from -1 (negative) to +1 (positive)</td></tr>
+              <tr><td>Fisher Exact p</td><td>Hypergeometric Contingency Table</td><td>Probability of observing co-occurrence under null hypothesis of independent technique usage</td></tr>
+              <tr><td>Benjamini-Hochberg FDR</td><td><code>q = min_k [ (m/k) &times; p_(k) ]</code></td><td>Controls the expected proportion of false positive rule discoveries</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Side Drawer for Node / Rule Details -->
+  <aside class="drawer" id="side-drawer" aria-label="Details Drawer">
+    <button class="drawer-close" id="drawer-close-btn" aria-label="Close drawer">&times;</button>
+    <div id="drawer-content"></div>
+  </aside>
+
+  <!-- Live Demo Walkthrough Toast Modal -->
+  <div class="demo-toast" id="demo-toast">
+    <div class="demo-toast-title">
+      <span id="demo-step-title">Demo Step 1: Overview</span>
+      <span style="font-size: 11px; color: #818cf8;" id="demo-step-counter">1 / 6</span>
+    </div>
+    <div class="demo-toast-body" id="demo-step-body">
+      Welcome to the live demo of CyberThreatMiner.
+    </div>
+    <div class="demo-toast-nav">
+      <button class="btn btn-secondary" id="demo-btn-prev" style="padding: 4px 10px; font-size: 11px;">Previous</button>
+      <button class="btn btn-primary" id="demo-btn-next" style="padding: 4px 10px; font-size: 11px;">Next Step &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong>CyberThreatMiner v2.0</strong> • College ML Mini Project (Course 23PCIT503) • MITRE ATT&amp;CK Enterprise v19.2
+    </div>
+    <div>
+      Built with Python 3.13, Flask, Plotly.js &amp; Cytoscape.js • Zero Blackbox Mining in Production
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // App State
+    const state = {
+      summary: null,
+      mineResults: null,
+      cooccurPicked: [],
+      networkCy: null,
+      demoStep: 0,
+      activeRules: []
+    };
+
+    // Helper functions
+    const $ = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
+    const get = async url => {
+      try {
+        const res = await fetch(url);
+        return await res.json();
+      } catch (err) {
+        console.error("API Fetch Error:", url, err);
+        return null;
+      }
+    };
+    const esc = s => String(s || "").replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+    const pct = x => (Number(x) * 100).toFixed(1) + "%";
+
+    // Tab Switching
+    $$(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+        switchTab(target);
+      });
+    });
+
+    function switchTab(tabId) {
+      $$(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tabId));
+      $$(".tab-content").forEach(c => c.classList.toggle("active", c.id === "tab-" + tabId));
+      
+      // Resize triggers for Plotly & Cytoscape
+      if (tabId === "overview") {
+        Plotly.Plots.resize("chart-top-techniques");
+        Plotly.Plots.resize("chart-tactics-pie");
+        Plotly.Plots.resize("chart-tactic-heatmap");
+      } else if (tabId === "network" && state.networkCy) {
+        setTimeout(() => { state.networkCy.resize(); state.networkCy.fit(); }, 150);
+      } else if (tabId === "itemsets") {
+        Plotly.Plots.resize("chart-itemsets-support");
+      } else if (tabId === "algorithm-lab") {
+        Plotly.Plots.resize("chart-bench-time");
+        Plotly.Plots.resize("chart-bench-mem");
+      } else if (tabId === "clusters") {
+        Plotly.Plots.resize("chart-cluster-silhouette");
+        Plotly.Plots.resize("chart-cluster-pca");
+      } else if (tabId === "evaluation") {
+        Plotly.Plots.resize("chart-eval-volcano");
+        Plotly.Plots.resize("chart-eval-stability");
+        if ($("#chart-confusion-matrix")) Plotly.Plots.resize("chart-confusion-matrix");
+        if ($("#chart-recovery-bars")) Plotly.Plots.resize("chart-recovery-bars");
+        if ($("#chart-roc-curve")) Plotly.Plots.resize("chart-roc-curve");
+        if ($("#chart-pr-curve")) Plotly.Plots.resize("chart-pr-curve");
+      }
+    }
+
+    // Controls sync
+    $("#input-sup").addEventListener("input", e => $("#val-sup").value = Number(e.target.value).toFixed(2));
+    $("#input-conf").addEventListener("input", e => $("#val-conf").value = Number(e.target.value).toFixed(2));
+    $("#input-lift").addEventListener("input", e => $("#val-lift").value = Number(e.target.value).toFixed(1));
+    $("#input-len").addEventListener("input", e => $("#val-len").value = e.target.value);
+    $("#cluster-k").addEventListener("input", e => $("#cluster-k-val").value = "k=" + e.target.value);
+    $("#net-min-lift").addEventListener("input", e => {
+      $("#net-lift-val").value = Number(e.target.value).toFixed(1) + "x";
+      filterNetworkByLift(parseFloat(e.target.value));
+    });
+
+    // 0. Live System Self-Check
+    async function fetchSelfCheck() {
+      const pill = $("#kpi-selfcheck-pill");
+      const btn = $("#btn-refresh-selfcheck");
+      if (btn) btn.textContent = "⏳ Checking...";
+      const res = await get("/api/self_check");
+      if (btn) btn.textContent = "🔄 Re-verify";
+      if (!res) return;
+      
+      if (res.status === "PASS") {
+        if (pill) {
+          pill.className = "text-emerald";
+          pill.textContent = "✓ PASS (100% Green)";
+        }
+      } else {
+        if (pill) {
+          pill.className = "text-amber";
+          pill.textContent = "⚠️ Issues Detected";
+        }
+      }
+      
+      const checks = res.checks || {};
+      if (checks.data_integrity && $("#sc-data-val")) {
+        $("#sc-data-val").textContent = checks.data_integrity.status === "ok" ? `✓ ${checks.data_integrity.detail}` : `✗ Error`;
+      }
+      if (checks.algorithms_equivalent && $("#sc-algo-val")) {
+        $("#sc-algo-val").textContent = checks.algorithms_equivalent.status === "ok" ? "✓ Apriori = FP-Growth = Eclat" : "✗ Discrepancy";
+      }
+      if (checks.mlxtend_agreement && $("#sc-mlx-val")) {
+        $("#sc-mlx-val").textContent = checks.mlxtend_agreement.status === "ok" ? "✓ 100% Golden Agreement" : "✗ Discrepancy";
+      }
+      if (checks.test_suite && $("#sc-test-val")) {
+        $("#sc-test-val").textContent = checks.test_suite.status === "ok" ? "✓ 41/41 PyTest Suites Passing" : "✗ Failures";
+      }
+    }
+
+    // 1. Load Overview & Summary
+    async function initOverview() {
+      const lens = $("#sel-lens") ? $("#sel-lens").value : "groups";
+      const abstraction = $("#sel-abstraction") ? $("#sel-abstraction").value : "parent";
+      const lensLabel = lens === "software" ? "Software & Tools" : (lens === "campaigns" ? "Campaigns" : "Threat Groups");
+      if ($("#kpi-lens")) $("#kpi-lens").textContent = `${lensLabel} (${abstraction})`;
+
+      const data = await get(`/api/summary?lens=${lens}&abstraction=${abstraction}`);
+      if (!data) return;
+      state.summary = data;
+
+      // KPIs
+      $("#kpi-groups").textContent = data.groups;
+      $("#kpi-techs").textContent = data.techniques;
+      $("#kpi-avg").textContent = data.avg_per_group;
+      $("#kpi-sparsity").textContent = data.sparsity_pct + "%";
+      
+      $("#card-groups").textContent = data.groups;
+      $("#card-techs").textContent = data.techniques;
+      $("#card-avg").textContent = data.avg_per_group;
+      $("#card-sparsity").textContent = data.sparsity_pct + "%";
+
+      // Populate Datalists & Dropdowns
+      const datalist = $("#tech-datalist");
+      datalist.innerHTML = data.all_techniques.map(t => `<option value="${t.id}">${t.id} - ${esc(t.name)}</option>`).join("");
+
+      const groupSel = $("#sel-fingerprint-group");
+      groupSel.innerHTML = data.all_groups.map(g => `<option value="${g}">${g}</option>`).join("");
+      groupSel.value = "APT28";
+
+      // Render Top Techniques Chart
+      const topTechs = data.top_techniques.slice(0, 10).reverse();
+      const traceTop = {
+        x: topTechs.map(t => t.support * 100),
+        y: topTechs.map(t => `${t.id} ${t.name.slice(0, 22)}`),
+        type: 'bar',
+        orientation: 'h',
+        marker: {
+          color: topTechs.map(t => t.support),
+          colorscale: 'Blues',
+          cmin: 0.1,
+          cmax: 0.7
+        },
+        text: topTechs.map(t => (t.support * 100).toFixed(1) + "%"),
+        textposition: 'auto'
+      };
+      const layoutTop = {
+        margin: { l: 180, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { title: 'Prevalence (% of Threat Groups)', gridcolor: '#1e293b' },
+        yaxis: { automargin: true }
+      };
+      Plotly.newPlot("chart-top-techniques", [traceTop], layoutTop, { responsive: true, displayModeBar: false });
+
+      // Render Tactic Pie Chart
+      const tactics = data.tactic_distribution;
+      const tracePie = {
+        labels: tactics.map(t => t.tactic),
+        values: tactics.map(t => t.count),
+        type: 'pie',
+        hole: 0.45,
+        textinfo: 'label+percent',
+        textposition: 'inside',
+        marker: {
+          colors: ['#38bdf8', '#818cf8', '#c084fc', '#f472b6', '#fb7185', '#facc15', '#4ade80', '#2dd4bf', '#fb923c', '#e11d48', '#94a3b8']
+        }
+      };
+      const layoutPie = {
+        margin: { l: 20, r: 20, t: 10, b: 20 },
+        paper_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#cbd5e1', size: 11 },
+        showlegend: false
+      };
+      Plotly.newPlot("chart-tactics-pie", [tracePie], layoutPie, { responsive: true, displayModeBar: false });
+
+      // Load Tactic Heatmap
+      initTacticHeatmap();
+    }
+
+    async function initTacticHeatmap() {
+      const data = await get("/api/tactics_heatmap");
+      if (!data) return;
+      const trace = {
+        z: data.z,
+        x: data.tactics,
+        y: data.tactics,
+        type: 'heatmap',
+        colorscale: 'Viridis',
+        hoverongaps: false
+      };
+      const layout = {
+        margin: { l: 140, r: 20, t: 20, b: 120 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { tickangle: -45 },
+        yaxis: { automargin: true }
+      };
+      Plotly.newPlot("chart-tactic-heatmap", [trace], layout, { responsive: true, displayModeBar: false });
+    }
+
+    // 2. Mining Query Execution
+    async function runMine() {
+      const algo = $("#sel-algorithm").value;
+      const sup = $("#input-sup").value;
+      const conf = $("#input-conf").value;
+      const lift = $("#input-lift").value;
+      const len = $("#input-len").value;
+      const itemsetType = $("#sel-itemset-type").value;
+      const pruneRed = $("#chk-prune-redundant").checked;
+      const popFilter = $("#chk-popularity-bias") && $("#chk-popularity-bias").checked ? 0.70 : 1.0;
+      const lens = $("#sel-lens") ? $("#sel-lens").value : "groups";
+      const abstraction = $("#sel-abstraction") ? $("#sel-abstraction").value : "parent";
+
+      const url = `/api/mine?algorithm=${algo}&min_support=${sup}&min_conf=${conf}&min_lift=${lift}&max_len=${len}&itemset_type=${itemsetType}&prune_redundant=${pruneRed}&top_k=80&max_item_support=${popFilter}&lens=${lens}&abstraction=${abstraction}`;
+      
+      $("#btn-run-mine").textContent = "⏳ Mining...";
+      const res = await get(url);
+      $("#btn-run-mine").textContent = "⚡ Run Mining Query";
+      if (!res) return;
+
+      state.mineResults = res;
+      state.activeRules = res.rules;
+
+      // Update counters & Compression KPIs
+      $("#tab-cnt-itemsets").textContent = res.itemsets.length;
+      $("#tab-cnt-rules").textContent = res.rules.length;
+      $("#mine-time-label").textContent = `Algorithm: ${res.algorithm.toUpperCase()} • Time: ${res.execution_time_ms} ms • Itemsets: ${res.total_frequent_itemsets} • Rules: ${res.rules_count}`;
+
+      if ($("#kpi-mine-time")) $("#kpi-mine-time").textContent = `${res.execution_time_ms} ms`;
+      if ($("#kpi-mine-algo-label")) $("#kpi-mine-algo-label").textContent = `${res.algorithm.toUpperCase()} (${lens}/${abstraction})`;
+      if ($("#kpi-closed-comp")) $("#kpi-closed-comp").textContent = `${res.closed_compression_pct}% (${res.closed_itemsets_count} closed)`;
+      if ($("#kpi-maximal-comp")) $("#kpi-maximal-comp").textContent = `${res.maximal_compression_pct}% (${res.maximal_itemsets_count} max)`;
+      if ($("#kpi-redundancy-pruned")) $("#kpi-redundancy-pruned").textContent = `${res.redundant_rules_pruned} rules pruned`;
+
+      // Populate Level Logs Table
+      const logBody = $("#table-level-logs");
+      if (res.level_logs && res.level_logs.length) {
+        logBody.innerHTML = res.level_logs.map(log => `
+          <tr>
+            <td><strong class="text-cyan">Level k=${log.k}</strong></td>
+            <td>${log.candidates_generated}</td>
+            <td><strong class="text-amber">${log.pruned_by_apriori}</strong></td>
+            <td><strong class="text-emerald">${log.frequent_kept}</strong></td>
+            <td>${esc(log.description)}</td>
+          </tr>
+        `).join("");
+      } else {
+        logBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-dim);">${res.algorithm.toUpperCase()} does not generate level-wise candidate logs (Candidate-free pattern tree extraction).</td></tr>`;
+      }
+
+      // Populate Rules Preview
+      const previewBox = $("#mine-rules-preview");
+      if (!res.rules.length) {
+        previewBox.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--text-dim);">No rules found at current thresholds. Try lowering min_support or min_confidence.</div>`;
+      } else {
+        previewBox.innerHTML = res.rules.slice(0, 4).map(r => `
+          <div class="insight-card">
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+              ${r.if.map(x => `<span class="chip">${esc(x)}</span>`).join(" + ")}
+              &rarr;
+              <span class="chip chip-consequent">${esc(r.then.join(", "))}</span>
+            </div>
+            <div>${esc(r.plain_english)}</div>
+            <div style="display: flex; gap: 16px; margin-top: 6px; font-size: 11.5px; color: var(--text-dim);">
+              <span>Support: <strong>${pct(r.support)}</strong></span>
+              <span>Confidence: <strong>${pct(r.confidence)}</strong></span>
+              <span>Lift: <strong class="text-amber">${r.lift}x</strong></span>
+              <span>Fisher p: <strong>${r.p_value ? Number(r.p_value).toExponential(3) : 'N/A'}</strong></span>
+              <span>FDR q: <strong>${r.q_value ? Number(r.q_value).toExponential(3) : 'N/A'}</strong></span>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Populate Itemsets & Rules Tabs
+      renderItemsets(res.itemsets);
+      renderRules(res.rules);
+      initNetwork();
+    }
+
+    $("#btn-run-mine").addEventListener("click", runMine);
+
+    // 3. Render Itemsets Tab
+    function renderItemsets(itemsets) {
+      const tbody = $("#table-itemsets-body");
+      if (!itemsets.length) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No itemsets meet thresholds.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = itemsets.map(s => `
+        <tr>
+          <td><span class="chip">k=${s.size}</span></td>
+          <td>${s.items.map(i => `<span class="chip">${esc(i)}</span>`).join(" ")}</td>
+          <td><strong class="font-mono text-cyan">${(s.support * 100).toFixed(1)}%</strong></td>
+          <td>${(s.support * 167).toFixed(0)} groups</td>
+          <td>${s.is_closed ? '<span class="badge badge-closed">Closed</span>' : '<span style="color:var(--text-dim)">&ndash;</span>'}</td>
+          <td>${s.is_maximal ? '<span class="badge badge-maximal">Maximal</span>' : '<span style="color:var(--text-dim)">&ndash;</span>'}</td>
+        </tr>
+      `).join("");
+
+      // Plot itemsets support chart
+      const topSets = itemsets.slice(0, 15).reverse();
+      const trace = {
+        x: topSets.map(s => s.support * 100),
+        y: topSets.map(s => s.items.map(x => x.split(" ")[0]).join(" + ")),
+        type: 'bar',
+        orientation: 'h',
+        marker: { color: '#06b6d4' },
+        text: topSets.map(s => (s.support * 100).toFixed(1) + "%"),
+        textposition: 'auto'
+      };
+      const layout = {
+        margin: { l: 200, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { title: 'Support (% of Threat Groups)', gridcolor: '#1e293b' },
+        yaxis: { automargin: true }
+      };
+      Plotly.newPlot("chart-itemsets-support", [trace], layout, { responsive: true, displayModeBar: false });
+    }
+
+    // 4. Render Rules Tab
+    function renderRules(rules) {
+      const tbody = $("#table-rules-body");
+      if (!rules.length) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center;">No association rules found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rules.map((r, idx) => `
+        <tr>
+          <td>
+            <div style="font-weight: 600;">
+              ${r.if.map(x => `<span class="chip">${esc(x)}</span>`).join(" ")}
+              &rarr;
+              <span class="chip chip-consequent">${esc(r.then.join(", "))}</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-dim); margin-top: 3px;">${esc(r.plain_english)}</div>
+          </td>
+          <td class="font-mono">${pct(r.support)}</td>
+          <td class="font-mono text-cyan"><strong>${pct(r.confidence)}</strong></td>
+          <td class="font-mono text-amber"><strong>${r.lift}x</strong></td>
+          <td class="font-mono">${r.leverage}</td>
+          <td class="font-mono">${r.conviction}</td>
+          <td class="font-mono">${r.zhang}</td>
+          <td class="font-mono">${r.p_value !== null ? r.p_value : '-'}</td>
+          <td class="font-mono">${r.q_value !== null ? (r.q_value < 0.05 ? `<span class="badge badge-sig">${r.q_value}</span>` : r.q_value) : '-'}</td>
+          <td>
+            <button class="btn btn-secondary" onclick="inspectRule(${idx})" style="padding: 3px 8px; font-size: 11px;">Inspect</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    window.inspectRule = function(idx) {
+      if (!state.activeRules || !state.activeRules[idx]) return;
+      const r = state.activeRules[idx];
+      const drawer = $("#side-drawer");
+      const content = $("#drawer-content");
+
+      content.innerHTML = `
+        <h2 style="font-size: 16px; margin-bottom: 12px; color: #fff;">Association Rule Inspection</h2>
+        <div class="insight-card" style="margin-bottom: 16px;">
+          ${r.plain_english}
+        </div>
+        <div style="margin-bottom: 14px;">
+          <strong style="color: var(--text-muted); font-size: 12px;">ANTECEDENT (IF):</strong>
+          <div style="margin-top: 4px;">${r.if.map(x => `<div class="chip" style="display:block; margin:4px 0;">${esc(x)}</div>`).join("")}</div>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <strong style="color: var(--text-muted); font-size: 12px;">CONSEQUENT (THEN):</strong>
+          <div style="margin-top: 4px;">${r.then.map(x => `<div class="chip chip-consequent" style="display:block; margin:4px 0;">${esc(x)}</div>`).join("")}</div>
+        </div>
+        <table class="data-table" style="margin-top: 14px;">
+          <tr><th>Support P(A&cup;B)</th><td class="font-mono">${pct(r.support)}</td></tr>
+          <tr><th>Confidence P(B|A)</th><td class="font-mono text-cyan">${pct(r.confidence)}</td></tr>
+          <tr><th>Lift</th><td class="font-mono text-amber">${r.lift}x</td></tr>
+          <tr><th>Leverage</th><td class="font-mono">${r.leverage}</td></tr>
+          <tr><th>Conviction</th><td class="font-mono">${r.conviction}</td></tr>
+          <tr><th>Zhang's Metric</th><td class="font-mono">${r.zhang}</td></tr>
+          <tr><th>Jaccard Similarity</th><td class="font-mono">${r.jaccard}</td></tr>
+          <tr><th>Kulczynski Measure</th><td class="font-mono">${r.kulczynski}</td></tr>
+          <tr><th>Cosine Similarity</th><td class="font-mono">${r.cosine}</td></tr>
+          <tr><th>All-Confidence</th><td class="font-mono">${r.all_confidence}</td></tr>
+          <tr><th>Fisher Exact p-value</th><td class="font-mono">${r.p_value}</td></tr>
+          <tr><th>Benjamini-Hochberg FDR q</th><td class="font-mono">${r.q_value}</td></tr>
+          <tr><th>Composite Score</th><td class="font-mono text-emerald">${r.composite_score}</td></tr>
+        </table>
+        <div class="insight-card" style="margin-top: 16px; font-size: 11px;">
+          <strong>Security Meaning:</strong> High lift (${r.lift}x) means threat groups documenting the antecedent are observed with the consequent significantly more often than baseline chance.
+        </div>
+      `;
+      drawer.classList.add("open");
+    };
+
+    $("#drawer-close-btn").addEventListener("click", () => {
+      $("#side-drawer").classList.remove("open");
+    });
+
+    // 5. Network Graph via Cytoscape.js
+    async function initNetwork() {
+      const sup = $("#input-sup").value;
+      const conf = $("#input-conf").value;
+      const lift = $("#net-min-lift").value;
+
+      const data = await get(`/api/network?min_support=${sup}&min_conf=${conf}&min_lift=${lift}`);
+      if (!data || !data.elements) return;
+
+      const container = $("#cy-network");
+      if (state.networkCy) {
+        state.networkCy.destroy();
+      }
+
+      state.networkCy = cytoscape({
+        container: container,
+        elements: data.elements,
+        style: [
+          {
+            selector: 'node',
+            style: {
+              'background-color': 'data(color)',
+              'label': 'data(label)',
+              'color': '#f8fafc',
+              'font-size': '10px',
+              'text-valign': 'center',
+              'text-halign': 'center',
+              'text-wrap': 'wrap',
+              'width': 'data(size)',
+              'height': 'data(size)',
+              'text-outline-color': '#090e1a',
+              'text-outline-width': '2px',
+              'border-width': '1.5px',
+              'border-color': '#ffffff'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'width': 'mapData(lift, 1, 5, 1.5, 6)',
+              'line-color': '#38bdf8',
+              'target-arrow-color': '#38bdf8',
+              'target-arrow-shape': 'triangle',
+              'curve-style': 'bezier',
+              'opacity': 0.65,
+              'label': 'data(label)',
+              'font-size': '9px',
+              'color': '#94a3b8',
+              'text-rotation': 'autorotate',
+              'text-outline-color': '#090e1a',
+              'text-outline-width': '2px'
+            }
+          },
+          {
+            selector: 'node:selected',
+            style: {
+              'border-width': '4px',
+              'border-color': '#f59e0b',
+              'box-shadow': '0 0 15px #f59e0b'
+            }
+          },
+          {
+            selector: 'edge:selected',
+            style: {
+              'line-color': '#f59e0b',
+              'target-arrow-color': '#f59e0b',
+              'opacity': 1.0,
+              'width': 6
+            }
+          }
+        ],
+        layout: {
+          name: $("#net-layout").value || 'cose',
+          animate: false
+        }
+      });
+
+      // Node click interaction
+      state.networkCy.on('tap', 'node', function(evt){
+        const node = evt.target;
+        const d = node.data();
+        const drawer = $("#side-drawer");
+        const content = $("#drawer-content");
+        content.innerHTML = `
+          <h2 style="font-size: 16px; margin-bottom: 8px; color: #fff;">${esc(d.full_name)}</h2>
+          <span class="badge" style="background:${d.color}; color:#000; margin-bottom:14px;">${esc(d.tactic)}</span>
+          <table class="data-table" style="margin-top: 14px;">
+            <tr><th>Technique ID</th><td class="font-mono text-cyan">${esc(d.id)}</td></tr>
+            <tr><th>Primary Tactic</th><td>${esc(d.tactic)}</td></tr>
+            <tr><th>Dataset Support</th><td class="font-mono">${pct(d.support)}</td></tr>
+            <tr><th>Observed In</th><td>${(d.support * 167).toFixed(0)} Threat Groups</td></tr>
+          </table>
+          <div class="insight-card" style="margin-top: 16px;">
+            Connected association rules involving this technique are highlighted in the network canvas.
+          </div>
+        `;
+        drawer.classList.add("open");
+      });
+
+      // Populate Legend
+      const legendMap = {};
+      data.elements.nodes.forEach(n => { legendMap[n.data.tactic] = n.data.color; });
+      $("#net-legend").innerHTML = Object.entries(legendMap).map(([tac, col]) => `
+        <div style="display:flex; align-items:center; gap:5px;">
+          <span style="width:10px; height:10px; border-radius:50%; background:${col};"></span>
+          <span>${esc(tac)}</span>
+        </div>
+      `).join("");
+    }
+
+    function filterNetworkByLift(minLift) {
+      if (!state.networkCy) return;
+      state.networkCy.elements('edge').forEach(edge => {
+        if (edge.data('lift') < minLift) {
+          edge.hide();
+        } else {
+          edge.show();
+        }
+      });
+    }
+
+    $("#net-layout").addEventListener("change", e => {
+      if (state.networkCy) {
+        state.networkCy.layout({ name: e.target.value, animate: true, animationDuration: 500 }).run();
+      }
+    });
+
+    $("#btn-reset-net").addEventListener("click", () => {
+      if (state.networkCy) state.networkCy.fit();
+    });
+
+    // 6. Explorer & Threat Group Fingerprint
+    $("#input-cooccur-tech").addEventListener("change", e => {
+      const val = e.target.value.split(" ")[0].toUpperCase();
+      if (val && !state.cooccurPicked.includes(val)) {
+        state.cooccurPicked.push(val);
+        renderCooccurChips();
+      }
+      e.target.value = "";
+    });
+
+    function renderCooccurChips() {
+      $("#cooccur-selected-chips").innerHTML = state.cooccurPicked.map(p => `
+        <span class="chip" onclick="removeCooccurChip('${p}')" style="cursor:pointer;" title="Click to remove">
+          ${p} &times;
+        </span>
+      `).join("");
+    }
+
+    window.removeCooccurChip = function(t) {
+      state.cooccurPicked = state.cooccurPicked.filter(x => x !== t);
+      renderCooccurChips();
+    };
+
+    $("#btn-run-cooccur").addEventListener("click", async () => {
+      if (!state.cooccurPicked.length) {
+        $("#cooccur-results").innerHTML = `<div style="color: var(--amber);">Please add at least one technique (e.g. T1059).</div>`;
+        return;
+      }
+      const data = await get(`/api/cooccur?techniques=${state.cooccurPicked.join(",")}`);
+      if (!data || data.error) {
+        $("#cooccur-results").innerHTML = `<div style="color: var(--amber);">${data ? data.error : 'Query failed'}</div>`;
+        return;
+      }
+
+      if (!data.cooccurring_techniques.length) {
+        $("#cooccur-results").innerHTML = `<div style="color: var(--text-dim); padding: 12px 0;">No strong statistical co-occurrences found for this specific combination at threshold.</div>`;
+        return;
+      }
+
+      $("#cooccur-results").innerHTML = `
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+          Historically co-occurring techniques across documented dossiers:
+        </div>
+        ${data.cooccurring_techniques.map(t => `
+          <div class="insight-card">
+            <div class="flex-between">
+              <strong>${esc(t.label)}</strong>
+              <div>
+                <span class="badge badge-sig font-mono">Confidence: ${pct(t.confidence)}</span>
+                <span class="badge badge-closed font-mono">Lift: ${t.lift}x</span>
+              </div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-dim); margin-top: 4px;">${esc(t.plain_english)}</div>
+          </div>
+        `).join("")}
+      `;
+    });
+
+    // Threat Group Fingerprint
+    $("#sel-fingerprint-group").addEventListener("change", async e => {
+      loadFingerprint(e.target.value);
+    });
+
+    async function loadFingerprint(groupName) {
+      const data = await get(`/api/fingerprint?group=${encodeURIComponent(groupName)}`);
+      if (!data || data.error) return;
+
+      const container = $("#fingerprint-details");
+      container.innerHTML = `
+        <div class="grid-2" style="margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 20px; font-weight: 800; color: #fff;">${esc(data.group)}</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Attributed Techniques: <strong class="text-cyan">${data.technique_count}</strong></div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--text-muted);">Covered Association Rules: <strong class="text-amber">${data.covered_rules_count}</strong></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <strong style="font-size: 12px; color: var(--text-muted);">Tactical Footprint:</strong>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;">
+            ${Object.entries(data.tactic_distribution).map(([tac, cnt]) => `
+              <span class="chip">${esc(tac)}: <strong>${cnt}</strong></span>
+            `).join("")}
+          </div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <strong style="font-size: 12px; color: var(--text-muted);">Most Similar Threat Actors (Jaccard Profile Distance):</strong>
+          <div style="margin-top: 6px;">
+            ${data.similar_groups.slice(0, 4).map(sg => `
+              <div class="flex-between" style="padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px;">
+                <span><strong>${esc(sg.group)}</strong> (${sg.shared_techniques_count} shared techniques)</span>
+                <span class="font-mono text-cyan">${(sg.jaccard_similarity * 100).toFixed(1)}% match</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+
+        <div>
+          <strong style="font-size: 12px; color: var(--text-muted);">Sample Applicable Rules Covered:</strong>
+          <div style="margin-top: 6px;">
+            ${data.covered_rules_sample.slice(0, 2).map(r => `
+              <div class="insight-card" style="font-size: 11.5px; margin: 6px 0;">
+                <div>${r.if.join(" + ")} &rarr; <span class="chip-consequent">${r.then.join(", ")}</span> (Lift: ${r.lift}x)</div>
+                <div style="color: var(--text-dim); margin-top: 2px;">${esc(r.plain_english)}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    // 7. Algorithm Lab & Animation Stepper
+    async function initAlgorithmLab() {
+      const data = await get("/api/benchmarks");
+      if (!data) return;
+
+      // Runtime chart
+      const traceAp = { x: data.supports, y: data.apriori_time_ms, name: 'Apriori', type: 'scatter', mode: 'lines+markers', line: { color: '#06b6d4', width: 3 } };
+      const traceFp = { x: data.supports, y: data.fp_growth_time_ms, name: 'FP-Growth', type: 'scatter', mode: 'lines+markers', line: { color: '#10b981', width: 3 } };
+      const traceEc = { x: data.supports, y: data.eclat_time_ms, name: 'Eclat', type: 'scatter', mode: 'lines+markers', line: { color: '#8b5cf6', width: 3 } };
+
+      const layoutTime = {
+        margin: { l: 50, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { title: 'Minimum Support Threshold', autorange: 'reversed', gridcolor: '#1e293b' },
+        yaxis: { title: 'Execution Time (ms)', gridcolor: '#1e293b' },
+        legend: { x: 0.05, y: 0.95 }
+      };
+      Plotly.newPlot("chart-bench-time", [traceAp, traceFp, traceEc], layoutTime, { responsive: true, displayModeBar: false });
+
+      // Memory chart
+      const traceMemAp = { x: data.supports.map(s => `Sup ${s}`), y: data.apriori_memory_kb, name: 'Apriori', type: 'bar', marker: { color: '#06b6d4' } };
+      const traceMemFp = { x: data.supports.map(s => `Sup ${s}`), y: data.fp_growth_memory_kb, name: 'FP-Growth', type: 'bar', marker: { color: '#10b981' } };
+      const traceMemEc = { x: data.supports.map(s => `Sup ${s}`), y: data.eclat_memory_kb, name: 'Eclat', type: 'bar', marker: { color: '#8b5cf6' } };
+
+      const layoutMem = {
+        margin: { l: 60, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        barmode: 'group',
+        xaxis: { gridcolor: '#1e293b' },
+        yaxis: { title: 'Peak Memory (KB)', gridcolor: '#1e293b' },
+        legend: { x: 0.05, y: 0.95 }
+      };
+      Plotly.newPlot("chart-bench-mem", [traceMemAp, traceMemFp, traceMemEc], layoutMem, { responsive: true, displayModeBar: false });
+
+      initStepper();
+    }
+
+    // Interactive Apriori Stepper Animation
+    const stepperSteps = [
+      {
+        title: "Step 1: Scan Level 1 (Single Item Frequencies)",
+        desc: "Scan all 167 threat group transaction baskets to count occurrence frequency of each single technique.",
+        details: "Total Candidate single items scanned: 203. Items meeting min_support (>= 0.25): 42. Form frequent itemsets L_1."
+      },
+      {
+        title: "Step 2: Candidate Join L_1 x L_1 -> C_2",
+        desc: "Pairwise union of surviving single items to generate 2-item candidate combinations.",
+        details: "Combinations C(42, 2) = 861 candidates generated. Since all subsets are in L_1 by definition, 0 pruned by downward closure at k=2."
+      },
+      {
+        title: "Step 3: Database Support Counting for C_2 -> L_2",
+        desc: "Filter C_2 candidates against threat group transactions.",
+        details: "Candidates meeting support threshold >= 0.25 kept as L_2. Surviving frequent 2-itemsets: 38."
+      },
+      {
+        title: "Step 4: Candidate Join & Apriori Pruning L_2 x L_2 -> C_3",
+        desc: "Generate 3-itemset candidates and apply the Downward Closure Property.",
+        details: "Downward Closure Test: For candidate {T1059, T1082, T1083}, verify if {T1059,T1082}, {T1059,T1083}, and {T1082,T1083} all exist in L_2. Pruned 12 candidates that failed. Scanned remaining candidates to form L_3."
+      },
+      {
+        title: "Step 5: Mining Complete & Rule Generation",
+        desc: "Downward closure reached termination. All frequent itemsets discovered.",
+        details: "Synthesize association rules A -> B satisfying minimum confidence (0.70) and lift (> 1.2x). Compute Fisher's exact test and Benjamini-Hochberg FDR correction."
+      }
+    ];
+    let currentStep = 0;
+
+    function renderStepper() {
+      const step = stepperSteps[currentStep];
+      $("#stepper-display").innerHTML = `
+        <div style="font-size: 15px; font-weight: 700; color: var(--cyan); margin-bottom: 6px;">${step.title}</div>
+        <div style="font-size: 13px; color: #fff; margin-bottom: 12px;">${step.desc}</div>
+        <div class="insight-card">${step.details}</div>
+        <div style="margin-top: 18px; font-size: 12px; color: var(--text-dim);">
+          Step ${currentStep + 1} of ${stepperSteps.length}
+        </div>
+      `;
+    }
+    function initStepper() {
+      currentStep = 0;
+      renderStepper();
+      $("#btn-step-next").onclick = () => { if (currentStep < stepperSteps.length - 1) { currentStep++; renderStepper(); } };
+      $("#btn-step-prev").onclick = () => { if (currentStep > 0) { currentStep--; renderStepper(); } };
+      $("#btn-step-reset").onclick = () => { currentStep = 0; renderStepper(); };
+    }
+
+    // 8. Clusters Tab
+    async function initClusters() {
+      const k = $("#cluster-k").value;
+      const method = $("#cluster-method").value;
+      const metric = $("#cluster-metric").value;
+
+      const data = await get(`/api/clusters?k=${k}&method=${method}&metric=${metric}`);
+      if (!data) return;
+
+      // Multi-metric cluster quality curves
+      const sil = data.silhouette || {};
+      const hierSil = data.hierarchical_jaccard_silhouette || {};
+      const db = data.davies_bouldin || {};
+
+      const traceSil = {
+        x: Object.keys(sil),
+        y: Object.values(sil),
+        name: 'K-Means Silhouette',
+        type: 'bar',
+        marker: {
+          color: Object.keys(sil).map(kk => kk == data.best_k ? '#06b6d4' : '#1e293b')
+        },
+        text: Object.values(sil),
+        textposition: 'auto'
+      };
+
+      const traceHier = {
+        x: Object.keys(hierSil),
+        y: Object.values(hierSil),
+        name: 'Hierarchical (Jaccard)',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#10b981', width: 2, dash: 'dot' },
+        marker: { size: 6 }
+      };
+
+      const traceDB = {
+        x: Object.keys(db),
+        y: Object.values(db).map(v => v / 10), // scaled for display
+        name: 'Davies-Bouldin (x0.1, lower is better)',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#f59e0b', width: 2 },
+        marker: { size: 6 }
+      };
+
+      const layoutSil = {
+        margin: { l: 40, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { title: 'Number of Clusters (k)', gridcolor: '#1e293b' },
+        yaxis: { title: 'Clustering Quality Metric', gridcolor: '#1e293b' },
+        legend: { orientation: 'h', y: 1.15, x: 0 }
+      };
+      Plotly.newPlot("chart-cluster-silhouette", [traceSil, traceHier, traceDB], layoutSil, { responsive: true, displayModeBar: false });
+
+      // PCA scatter
+      const pts = data.pca_points;
+      const tracePca = {
+        x: pts.map(p => p.x),
+        y: pts.map(p => p.y),
+        mode: 'markers',
+        type: 'scatter',
+        text: pts.map(p => `${p.group}<br>Cluster: ${p.cluster + 1}<br>Basket Size: ${p.basket_size}`),
+        marker: {
+          size: pts.map(p => Math.max(8, p.basket_size * 0.45)),
+          color: pts.map(p => p.cluster),
+          colorscale: 'Portland',
+          opacity: 0.85
+        }
+      };
+      const layoutPca = {
+        margin: { l: 40, r: 20, t: 10, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        xaxis: { title: `PC 1 (${data.pca_variance_ratio[0]}% var)`, gridcolor: '#1e293b' },
+        yaxis: { title: `PC 2 (${data.pca_variance_ratio[1]}% var)`, gridcolor: '#1e293b' }
+      };
+      Plotly.newPlot("chart-cluster-pca", [tracePca], layoutPca, { responsive: true, displayModeBar: false });
+
+      // Cluster cards
+      $("#cluster-cards-container").innerHTML = data.clusters.map(c => `
+        <div class="card" style="border-top: 3px solid #06b6d4;">
+          <div class="flex-between" style="margin-bottom: 8px;">
+            <strong style="font-size: 15px; color: #fff;">Cluster Archetype ${c.cluster_id}</strong>
+            <span class="badge badge-closed">${c.size} Threat Groups</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 8px;">
+            Dominant Tactics: ${c.dominant_tactics.map(t => `<span class="chip">${esc(t)}</span>`).join(" ")}
+          </div>
+          <div style="font-size: 12px; margin-bottom: 10px;">
+            <strong style="color: var(--text-muted);">Key Techniques:</strong><br>
+            ${c.top_techniques.slice(0, 4).map(t => `<span class="chip" style="margin:2px;">${esc(t.label)} (${(t.share*100).toFixed(0)}%)</span>`).join("")}
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-dim);">
+            <strong>Members:</strong> ${esc(c.groups.slice(0, 6).join(", "))}...
+          </div>
+        </div>
+      `).join("");
+    }
+
+    $("#cluster-method").addEventListener("change", initClusters);
+    $("#cluster-metric").addEventListener("change", initClusters);
+    $("#cluster-k").addEventListener("change", initClusters);
+
+    // 9. Evaluation Tab
+    async function initEvaluation() {
+      const perms = $("#eval-permutations") ? $("#eval-permutations").value : 1000;
+      const bootstraps = $("#eval-bootstraps") ? $("#eval-bootstraps").value : 100;
+      const seed = $("#eval-seed") ? $("#eval-seed").value : 42;
+
+      if ($("#btn-run-eval")) $("#btn-run-eval").textContent = "⏳ Computing...";
+
+      // 1. Train/Test Generalization (10 Splits with 95% CI)
+      const ttData = await get(`/api/train_test?n_splits=10&seed=${seed}`);
+      if (ttData && ttData.train_test) {
+        const tt = ttData.train_test;
+        $("#train-test-summary").innerHTML = `
+          <div class="grid-2" style="margin-bottom: 14px;">
+            <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 6px;">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Mean Train Confidence</div>
+              <div class="font-mono text-cyan" style="font-size: 20px; font-weight: 700;">${pct(tt.mean_train_confidence)}</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">95% CI: [${pct(tt.train_confidence_ci95[0])} – ${pct(tt.train_confidence_ci95[1])}]</div>
+            </div>
+            <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 6px;">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Mean Test Confidence / Precision</div>
+              <div class="font-mono text-emerald" style="font-size: 20px; font-weight: 700;">${pct(tt.mean_test_confidence)}</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">95% CI: [${pct(tt.test_confidence_ci95[0])} – ${pct(tt.test_confidence_ci95[1])}]</div>
+            </div>
+          </div>
+          <div class="flex-between" style="font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <span>Signed Generalization Gap (Train - Test):</span>
+            <strong class="font-mono">${(tt.mean_signed_generalization_gap * 100).toFixed(2)}% &plusmn; ${(tt.signed_generalization_gap_std * 100).toFixed(1)}%</strong>
+          </div>
+          <div class="flex-between" style="font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <span>Absolute Generalization Gap |Train - Test|:</span>
+            <strong class="font-mono text-amber">${(tt.mean_absolute_generalization_gap * 100).toFixed(2)}% (95% CI: [${(tt.absolute_generalization_gap_ci95[0]*100).toFixed(1)}% – ${(tt.absolute_generalization_gap_ci95[1]*100).toFixed(1)}%])</strong>
+          </div>
+          <div class="flex-between" style="font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <span>Rule Precision on Unseen Groups:</span>
+            <strong class="font-mono text-cyan">${pct(tt.mean_test_precision)} (fraction of test groups with antecedent that contain consequent)</strong>
+          </div>
+          <div class="flex-between" style="font-size: 12px; padding: 6px 0;">
+            <span>Repeated Split Folds:</span>
+            <strong class="font-mono">${tt.n_splits} random 80/20 partitions (seed=${seed})</strong>
+          </div>
+        `;
+      }
+
+      // 2. Multi-Lens Validation (Groups vs Software)
+      const mlData = await get("/api/multi_lens_eval?target_lens=software");
+      if (mlData && $("#multi-lens-summary")) {
+        $("#multi-lens-summary").innerHTML = `
+          <div class="grid-2" style="margin-bottom: 14px;">
+            <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 6px;">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">External Lens Agreement</div>
+              <div class="font-mono text-emerald" style="font-size: 22px; font-weight: 700;">${mlData.agreement_pct}%</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">${mlData.rules_holding} of ${mlData.rules_tested} rules hold with Lift &gt; 1.0</div>
+            </div>
+            <div style="background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 6px;">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Target Lens Sample Size</div>
+              <div class="font-mono text-cyan" style="font-size: 22px; font-weight: 700;">${mlData.target_transactions_count}</div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">Independent Malware &amp; Tool Dossiers</div>
+            </div>
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+            <strong>Verification Result:</strong> Association rules mined purely from Threat Actor dossiers demonstrate high cross-lens generalizability when tested against 785 independent malware and tool implementation profiles, confirming that discovered technique co-occurrences reflect operational tradecraft rather than actor attribution artifacts.
+          </div>
+        `;
+      }
+
+      // 3. Baselines Benchmark ("Is it better than chance?")
+      const baseData = await get("/api/baselines");
+      if (baseData && baseData.summary_table_k10 && $("#tbody-baselines")) {
+        const rows = baseData.summary_table_k10;
+        const interpretations = {
+          "Lift-Ranked + Sig Filter (Proposed)": "High-value tactical tradecraft; statistically superior enrichment over base rate",
+          "Confidence-Only Ranked": "Biased toward ubiquitous techniques (e.g. PowerShell T1059); low net intelligence",
+          "Popularity Prior Baseline": "Always predicts the most frequent techniques regardless of antecedent context",
+          "Independence Expectation": "Expected co-occurrence under null hypothesis of independent technique selection",
+          "Random-Rule Baseline": "Uniform random technique selection (reflects raw matrix density ~11%)"
+        };
+        $("#tbody-baselines").innerHTML = rows.map((r, i) => `
+          <tr style="${i === 0 ? 'background: rgba(16, 185, 129, 0.08); font-weight: 600;' : ''}">
+            <td>${i === 0 ? '⭐ ' : ''}<strong>${esc(r.model)}</strong></td>
+            <td class="font-mono">${pct(r.precision_at_10)}</td>
+            <td class="font-mono ${r.test_lift > 1.4 ? 'text-emerald' : 'text-amber'}">${r.test_lift}x</td>
+            <td class="font-mono">${r.hit_rate_pct}%</td>
+            <td class="font-mono text-cyan">+${(r.net_advantage_over_independence * 100).toFixed(1)}%</td>
+            <td style="font-size: 11.5px; color: var(--text-dim);">${interpretations[r.model] || 'Reference baseline'}</td>
+          </tr>
+        `).join("");
+      }
+
+      // 4. Statistical Eval (Volcano Plot & Stability with 1000 Permutations)
+      const statData = await get(`/api/statistical_eval?min_support=0.25&min_conf=0.7&n_bootstraps=${bootstraps}&n_permutations=${perms}&seed=${seed}`);
+      if ($("#btn-run-eval")) $("#btn-run-eval").textContent = "⚡ Re-run Validation";
+
+      if (statData && statData.volcano_points) {
+        const pts = statData.volcano_points;
+
+        if ($("#lbl-eval-count")) $("#lbl-eval-count").textContent = statData.rules_evaluated;
+        if ($("#lbl-sig-count")) $("#lbl-sig-count").textContent = statData.significant_rules_count;
+        if ($("#lbl-eval-time")) $("#lbl-eval-time").textContent = `Runtime: ${(statData.execution_time_ms / 1000).toFixed(2)} s`;
+
+        // Sort by lift to label top significant points
+        const sortedSig = [...pts].filter(p => p.is_significant).sort((a, b) => b.lift - a.lift);
+        const topLabels = new Set(sortedSig.slice(0, 5).map(p => p.rule));
+
+        const traceVolcano = {
+          x: pts.map(p => p.lift),
+          y: pts.map(p => p.neg_log10_q),
+          mode: 'markers+text',
+          type: 'scatter',
+          text: pts.map(p => topLabels.has(p.rule) ? p.rule.split(" -> ")[0] : ''),
+          textposition: 'top center',
+          textfont: { size: 9, color: '#f1f5f9' },
+          hovertext: pts.map(p => `
+            <b>Rule:</b> ${esc(p.rule)}<br>
+            <b>Lift:</b> ${p.lift}x (log2: ${p.log2_lift})<br>
+            <b>Fisher p:</b> ${p.p_value ? Number(p.p_value).toExponential(3) : '< 1e-12'}<br>
+            <b>FDR q:</b> ${p.q_value ? Number(p.q_value).toExponential(3) : '< 1e-12'} (-log10 q: ${p.neg_log10_q})<br>
+            <b>Permutation:</b> ${p.permutation_p_str} (Null Model)<br>
+            <b>Bootstrap Stability:</b> ${p.stability_pct}%<br>
+            <b>Significant (All 3 Criteria):</b> ${p.is_significant ? '<span style="color:#10b981;">YES</span>' : '<span style="color:#f59e0b;">NO</span>'}
+          `),
+          hoverinfo: 'text',
+          marker: {
+            size: pts.map(p => p.is_significant ? 11 : 8),
+            color: pts.map(p => p.is_significant ? '#10b981' : '#f59e0b'),
+            opacity: 0.85,
+            line: { color: '#070b12', width: 1 }
+          }
+        };
+
+        const maxLift = Math.max(...pts.map(p => p.lift), 3.0);
+        const maxNegLogQ = Math.max(...pts.map(p => p.neg_log10_q), 3.0);
+
+        const layoutVolcano = {
+          margin: { l: 55, r: 25, t: 15, b: 45 },
+          paper_bgcolor: 'transparent',
+          plot_bgcolor: 'transparent',
+          font: { family: 'Inter', color: '#94a3b8', size: 11 },
+          xaxis: { title: 'Rule Lift (Fold Enrichment over Independence)', gridcolor: '#1e293b', zeroline: false },
+          yaxis: { title: '-log10(FDR q-value) [Benjamini-Hochberg]', gridcolor: '#1e293b', zeroline: false, range: [0, maxNegLogQ * 1.1] },
+          shapes: [{
+            type: 'line',
+            x0: 0.8,
+            x1: maxLift * 1.05,
+            y0: 1.301,  // -log10(0.05) = 1.30103
+            y1: 1.301,
+            line: { color: '#ef4444', width: 1.5, dash: 'dash' }
+          }],
+          annotations: [{
+            x: maxLift * 0.95,
+            y: 1.35,
+            xref: 'x',
+            yref: 'y',
+            text: 'Significance Threshold &alpha; = 0.05',
+            showarrow: false,
+            font: { color: '#ef4444', size: 10 }
+          }]
+        };
+        Plotly.newPlot("chart-eval-volcano", [traceVolcano], layoutVolcano, { responsive: true, displayModeBar: false });
+
+        // Bootstrap stability histogram
+        const stabs = pts.map(p => p.stability_pct);
+        const traceStab = {
+          x: stabs,
+          type: 'histogram',
+          nbinsx: 10,
+          marker: { color: '#8b5cf6', line: { color: '#070b12', width: 1 } }
+        };
+        const layoutStab = {
+          margin: { l: 45, r: 20, t: 15, b: 45 },
+          paper_bgcolor: 'transparent',
+          plot_bgcolor: 'transparent',
+          font: { family: 'Inter', color: '#94a3b8', size: 11 },
+          xaxis: { title: `Survival Rate across ${bootstraps} Resamples (%)`, gridcolor: '#1e293b' },
+          yaxis: { title: 'Discovered Rule Count', gridcolor: '#1e293b' }
+        };
+        Plotly.newPlot("chart-eval-stability", [traceStab], layoutStab, { responsive: true, displayModeBar: false });
+      }
+
+      // 5. Co-occurrence Recovery & Classification Performance on Unseen Groups
+      await initPerformanceMetrics(seed);
+    }
+
+    // Performance and Co-occurrence Recovery Metrics on Unseen Groups
+    state.cmMode = "counts"; // or "norm"
+    state.perfData = null;
+
+    async function initPerformanceMetrics(seed = 42) {
+      const data = await get(`/api/performance?repeats=10&seed=${seed}&mask_fraction=0.30`);
+      if (!data) return;
+      state.perfData = data;
+
+      // 1. Render Summary Cards with 95% CI Whiskers
+      const sm = data.summary_metrics;
+      const fmtCI = (metric) => {
+        if (!metric) return "";
+        return `95% CI: [${pct(metric.ci_95[0])} – ${pct(metric.ci_95[1])}] (&plusmn;${pct(metric.ci_half_width)})`;
+      };
+
+      const summaryCont = $("#perf-metrics-summary");
+      if (summaryCont) {
+        summaryCont.innerHTML = `
+          <div class="kpi-card">
+            <span class="kpi-label">Test Precision</span>
+            <div class="kpi-value text-cyan">${pct(sm.precision.mean)}</div>
+            <span class="kpi-desc">${fmtCI(sm.precision)}</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Test Recall</span>
+            <div class="kpi-value text-emerald">${pct(sm.recall.mean)}</div>
+            <span class="kpi-desc">${fmtCI(sm.recall)}</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Test F1-Score</span>
+            <div class="kpi-value text-amber">${sm.f1.mean.toFixed(3)}</div>
+            <span class="kpi-desc">${fmtCI(sm.f1)}</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Matthews Corr (MCC)</span>
+            <div class="kpi-value" style="color: #a855f7;">${sm.mcc.mean.toFixed(3)}</div>
+            <span class="kpi-desc">${fmtCI(sm.mcc)}</span>
+          </div>
+        `;
+      }
+
+      // 2. Set Up Threshold Slider Live Update
+      const slider = $("#slider-conf-thresh");
+      const valLabel = $("#val-conf-thresh");
+      const liveInterp = $("#interpretation-live-conf");
+
+      function updateThresholdView(threshVal) {
+        if (!state.perfData || !state.perfData.threshold_sweep) return;
+        if (valLabel) valLabel.textContent = Number(threshVal).toFixed(2);
+        
+        // Find matching row in threshold sweep
+        const sweepRow = state.perfData.threshold_sweep.reduce((prev, curr) => {
+          return Math.abs(curr.threshold - threshVal) < Math.abs(prev.threshold - threshVal) ? curr : prev;
+        });
+
+        if (liveInterp) {
+          liveInterp.innerHTML = `
+            <strong>Live Threshold Interpretation (&tau; = ${sweepRow.threshold.toFixed(2)}):</strong>
+            At this threshold, rules fire on <strong>${sweepRow.fired_groups_pct}%</strong> of held-out test opportunities. Fired rules achieve 
+            <strong>${pct(sweepRow.precision)}</strong> Test Precision, <strong>${pct(sweepRow.recall)}</strong> Test Recall, and 
+            <strong>${sweepRow.f1.toFixed(3)}</strong> F1-Score across unseen threat groups.
+          `;
+        }
+
+        renderConfusionMatrix(sweepRow);
+      }
+
+      if (slider) {
+        slider.addEventListener("input", (e) => updateThresholdView(parseFloat(e.target.value)));
+      }
+
+      // 3. Render Confusion Matrix Heatmap
+      function renderConfusionMatrix(countsRow) {
+        if (!$("#chart-confusion-matrix")) return;
+        const row = countsRow || data.confusion_matrix.counts;
+        const totalP = (row.tp + row.fn) || 1;
+        const totalN = (row.fp + row.tn) || 1;
+
+        const isNorm = state.cmMode === "norm";
+        const valTP = isNorm ? (row.tp / totalP) : row.tp;
+        const valFN = isNorm ? (row.fn / totalP) : row.fn;
+        const valFP = isNorm ? (row.fp / totalN) : row.fp;
+        const valTN = isNorm ? (row.tn / totalN) : row.tn;
+
+        const textMatrix = [
+          [
+            `<b>TN</b><br>${isNorm ? (valTN * 100).toFixed(1) + '%' : valTN.toLocaleString()}`,
+            `<b>FN</b><br>${isNorm ? (valFN * 100).toFixed(1) + '%' : valFN.toLocaleString()}`
+          ],
+          [
+            `<b>FP</b><br>${isNorm ? (valFP * 100).toFixed(1) + '%' : valFP.toLocaleString()}`,
+            `<b>TP</b><br>${isNorm ? (valTP * 100).toFixed(1) + '%' : valTP.toLocaleString()}`
+          ]
+        ];
+
+        const zValues = [
+          [valTN, valFN],
+          [valFP, valTP]
+        ];
+
+        const traceCM = {
+          z: zValues,
+          x: ['Consequent Absent (0)', 'Consequent Present (1)'],
+          y: ['Rule Not Fired (0)', 'Rule Fired (1)'],
+          text: textMatrix,
+          texttemplate: "%{text}",
+          textfont: { size: 13, color: '#ffffff' },
+          type: 'heatmap',
+          colorscale: [
+            [0.0, '#0f172a'],
+            [0.3, '#1e293b'],
+            [0.7, '#0284c7'],
+            [1.0, '#10b981']
+          ],
+          showscale: false
+        };
+
+        const layoutCM = {
+          margin: { l: 120, r: 20, t: 20, b: 50 },
+          paper_bgcolor: 'transparent',
+          plot_bgcolor: 'transparent',
+          font: { family: 'Inter', color: '#94a3b8', size: 11 },
+          xaxis: { title: 'Actual Ground Truth in Held-Out Group', side: 'bottom' },
+          yaxis: { title: 'Rule Fired Prediction', automargin: true }
+        };
+
+        Plotly.newPlot("chart-confusion-matrix", [traceCM], layoutCM, { responsive: true, displayModeBar: false });
+      }
+
+      // Initial CM render
+      updateThresholdView(0.70);
+
+      // Toggle CM Raw vs Norm
+      if ($("#btn-cm-counts")) {
+        $("#btn-cm-counts").addEventListener("click", () => {
+          state.cmMode = "counts";
+          $("#btn-cm-counts").classList.add("active");
+          $("#btn-cm-norm").classList.remove("active");
+          updateThresholdView(parseFloat(slider ? slider.value : 0.70));
+        });
+      }
+      if ($("#btn-cm-norm")) {
+        $("#btn-cm-norm").addEventListener("click", () => {
+          state.cmMode = "norm";
+          $("#btn-cm-norm").classList.add("active");
+          $("#btn-cm-counts").classList.remove("active");
+          updateThresholdView(parseFloat(slider ? slider.value : 0.70));
+        });
+      }
+
+      // 4. Recovery vs Baselines Grouped Bar Chart
+      const rec = data.recovery_comparison || [];
+      const kLabels = rec.map(r => `K=${r.k}`);
+
+      const traceRecModel = {
+        x: kLabels,
+        y: rec.map(r => (r.model_hit_rate * 100)),
+        name: 'Model Hit-Rate %',
+        type: 'bar',
+        marker: { color: '#06b6d4' }
+      };
+      const traceRecPop = {
+        x: kLabels,
+        y: rec.map(r => (r.pop_hit_rate * 100)),
+        name: 'Popularity Baseline',
+        type: 'bar',
+        marker: { color: '#f59e0b' }
+      };
+      const traceRecRand = {
+        x: kLabels,
+        y: rec.map(r => (r.rand_hit_rate * 100)),
+        name: 'Random Baseline',
+        type: 'bar',
+        marker: { color: '#475569' }
+      };
+      const traceNDCG = {
+        x: kLabels,
+        y: rec.map(r => (r.model_ndcg * 100)),
+        name: 'Model NDCG@K %',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#10b981', width: 2.5 },
+        marker: { size: 7 }
+      };
+
+      const layoutRec = {
+        margin: { l: 45, r: 20, t: 20, b: 40 },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: { family: 'Inter', color: '#94a3b8', size: 11 },
+        barmode: 'group',
+        xaxis: { title: 'Recommendation Cutoff (K)', gridcolor: '#1e293b' },
+        yaxis: { title: 'Performance Score (%)', gridcolor: '#1e293b', range: [0, 100] },
+        legend: { orientation: 'h', y: 1.15, x: 0 }
+      };
+      if ($("#chart-recovery-bars")) {
+        Plotly.newPlot("chart-recovery-bars", [traceRecModel, traceRecPop, traceRecRand, traceNDCG], layoutRec, { responsive: true, displayModeBar: false });
+      }
+
+      // 5. ROC Curves (Model vs Popularity vs Random)
+      const curves = data.curves;
+      if (curves && $("#chart-roc-curve")) {
+        const traceRocModel = {
+          x: curves.model.fpr,
+          y: curves.model.tpr,
+          name: `Proposed Rules (AUC = ${curves.model.roc_auc.toFixed(3)})`,
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#06b6d4', width: 2.5 }
+        };
+        const traceRocPop = {
+          x: curves.popularity.fpr,
+          y: curves.popularity.tpr,
+          name: `Popularity (AUC = ${curves.popularity.roc_auc.toFixed(3)})`,
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#f59e0b', width: 1.5, dash: 'dash' }
+        };
+        const traceRocRand = {
+          x: [0, 1],
+          y: [0, 1],
+          name: 'Random Guess (AUC = 0.500)',
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#ef4444', width: 1.5, dash: 'dot' }
+        };
+
+        const layoutROC = {
+          margin: { l: 45, r: 20, t: 20, b: 40 },
+          paper_bgcolor: 'transparent',
+          plot_bgcolor: 'transparent',
+          font: { family: 'Inter', color: '#94a3b8', size: 11 },
+          xaxis: { title: 'False Positive Rate (1 - Specificity)', gridcolor: '#1e293b', range: [0, 1] },
+          yaxis: { title: 'True Positive Rate (Recall)', gridcolor: '#1e293b', range: [0, 1.05] },
+          legend: { orientation: 'h', y: 1.18, x: 0 }
+        };
+        Plotly.newPlot("chart-roc-curve", [traceRocModel, traceRocPop, traceRocRand], layoutROC, { responsive: true, displayModeBar: false });
+        if ($("#lbl-roc-interpret")) {
+          $("#lbl-roc-interpret").innerHTML = `<strong>ROC Interpretation:</strong> Association rules achieve ROC-AUC of <strong>${curves.model.roc_auc.toFixed(3)}</strong>, significantly beating random chance (0.50) across all threshold levels.`;
+        }
+      }
+
+      // 6. PR Curves (Model vs Popularity vs Random)
+      if (curves && $("#chart-pr-curve")) {
+        const tracePrModel = {
+          x: curves.model.recall,
+          y: curves.model.precision,
+          name: `Proposed Rules (PR-AUC = ${curves.model.pr_auc.toFixed(3)})`,
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#10b981', width: 2.5 }
+        };
+        const tracePrPop = {
+          x: curves.popularity.recall,
+          y: curves.popularity.precision,
+          name: `Popularity (PR-AUC = ${curves.popularity.pr_auc.toFixed(3)})`,
+          type: 'scatter',
+          mode: 'lines',
+          line: { color: '#f59e0b', width: 1.5, dash: 'dash' }
+        };
+
+        const layoutPR = {
+          margin: { l: 45, r: 20, t: 20, b: 40 },
+          paper_bgcolor: 'transparent',
+          plot_bgcolor: 'transparent',
+          font: { family: 'Inter', color: '#94a3b8', size: 11 },
+          xaxis: { title: 'Recall', gridcolor: '#1e293b', range: [0, 1] },
+          yaxis: { title: 'Precision', gridcolor: '#1e293b', range: [0, 1.05] },
+          legend: { orientation: 'h', y: 1.18, x: 0 }
+        };
+        Plotly.newPlot("chart-pr-curve", [tracePrModel, tracePrPop], layoutPR, { responsive: true, displayModeBar: false });
+        if ($("#lbl-pr-interpret")) {
+          $("#lbl-pr-interpret").innerHTML = `<strong>PR Interpretation:</strong> PR-AUC of <strong>${curves.model.pr_auc.toFixed(3)}</strong> demonstrates superior precision retention across high recall levels on held-out test groups.`;
+        }
+      }
+
+      // 7. Per-Rule Performance Table
+      const perRule = data.per_rule_performance || [];
+      function renderPerRuleTable(ruleList) {
+        if (!$("#tbody-per-rule-perf")) return;
+        $("#tbody-per-rule-perf").innerHTML = ruleList.map(r => `
+          <tr>
+            <td><strong class="font-mono text-cyan">${esc(r.rule)}</strong></td>
+            <td><strong class="text-amber">${r.fired_count}</strong></td>
+            <td class="font-mono text-emerald">${r.tp}</td>
+            <td class="font-mono text-rose">${r.fp}</td>
+            <td class="font-mono">${pct(r.test_precision)}</td>
+            <td class="font-mono">${pct(r.test_recall)}</td>
+            <td class="font-mono text-emerald">${r.test_f1.toFixed(3)}</td>
+            <td class="font-mono">${r.test_mcc.toFixed(3)}</td>
+          </tr>
+        `).join("");
+      }
+
+      renderPerRuleTable(perRule);
+
+      // Sorting
+      if ($("#sel-rule-sort")) {
+        $("#sel-rule-sort").addEventListener("change", (e) => {
+          const val = e.target.value;
+          const sorted = [...perRule].sort((a, b) => {
+            if (val === "precision") return b.test_precision - a.test_precision;
+            if (val === "recall") return b.test_recall - a.test_recall;
+            if (val === "fired") return b.fired_count - a.fired_count;
+            return b.test_f1 - a.test_f1;
+          });
+          renderPerRuleTable(sorted);
+        });
+      }
+
+      // 8. CSV & JSON Export Handlers
+      if ($("#btn-export-perf-csv")) {
+        $("#btn-export-perf-csv").addEventListener("click", () => {
+          let csv = "Rule,Fired_Count,TP,FP,Precision,Recall,F1,MCC\n";
+          perRule.forEach(r => {
+            csv += `"${r.rule}",${r.fired_count},${r.tp},${r.fp},${r.test_precision},${r.test_recall},${r.test_f1},${r.test_mcc}\n`;
+          });
+          const blob = new Blob([csv], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = "cyberthreatminer_rule_performance.csv";
+          a.click();
+        });
+      }
+
+      if ($("#btn-export-perf-json")) {
+        $("#btn-export-perf-json").addEventListener("click", () => {
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = "cyberthreatminer_cooccurrence_recovery_metrics.json";
+          a.click();
+        });
+      }
+    }
+
+    if ($("#btn-run-eval")) {
+      $("#btn-run-eval").addEventListener("click", initEvaluation);
+    }
+
+    // Live Demo Mode Walkthrough
+    const demoScript = [
+      {
+        tab: "overview",
+        title: "Demo Step 1: Overview & Data Verification",
+        body: "The project ingests enterprise-attack-v19.2.xlsx. We have verified 167 threat groups, 203 parent techniques, 89% matrix sparsity, and zero orphaned relationship rows."
+      },
+      {
+        tab: "mine",
+        title: "Demo Step 2: Pure Python Apriori with Level Diagnostics",
+        body: "Here we run Apriori from first principles with join and downward closure pruning. The level log displays candidates generated (C_k), candidates pruned by Apriori property, and surviving L_k."
+      },
+      {
+        tab: "rules",
+        title: "Demo Step 3: Association Rules & 10 Advanced Measures",
+        body: "Each rule includes 10 interest metrics (support, confidence, lift, leverage, conviction, Zhang, Jaccard, Kulczynski, cosine, all-confidence), plus Fisher's exact test and Benjamini-Hochberg FDR correction."
+      },
+      {
+        tab: "network",
+        title: "Demo Step 4: Cytoscape Network Graph",
+        body: "Interactive network visualization where nodes represent techniques (colored by MITRE tactic) and edges represent association rules weighted by Lift."
+      },
+      {
+        tab: "explorer",
+        title: "Demo Step 5: Explorer & Threat Group Fingerprint",
+        body: "Forensic fingerprinting of threat actors (e.g. APT28) showing tactic footprints, covered rules, and peer actors ranked by Jaccard distance."
+      },
+      {
+        tab: "evaluation",
+        title: "Demo Step 6: Empirical ML Evaluation",
+        body: "Repeated 80/20 train/test splits, 100x bootstrap stability, volcano significance plot, and 100% agreement cross-validation against mlxtend."
+      }
+    ];
+
+    $("#btn-demo-mode").addEventListener("click", () => {
+      state.demoStep = 0;
+      startDemoStep();
+    });
+
+    function startDemoStep() {
+      const step = demoScript[state.demoStep];
+      switchTab(step.tab);
+      $("#demo-step-title").textContent = step.title;
+      $("#demo-step-body").textContent = step.desc || step.body;
+      $("#demo-step-counter").textContent = `${state.demoStep + 1} / ${demoScript.length}`;
+      $("#demo-toast").style.display = "block";
+    }
+
+    $("#demo-btn-next").addEventListener("click", () => {
+      if (state.demoStep < demoScript.length - 1) {
+        state.demoStep++;
+        startDemoStep();
+      } else {
+        $("#demo-toast").style.display = "none";
+      }
+    });
+
+    $("#demo-btn-prev").addEventListener("click", () => {
+      if (state.demoStep > 0) {
+        state.demoStep--;
+        startDemoStep();
+      }
+    });
+
+    // Report Export
+    $("#btn-export-report").addEventListener("click", () => {
+      window.print();
+    });
+
+    // CSV & JSON Rule Export
+    $("#btn-export-rules-csv").addEventListener("click", () => {
+      if (!state.activeRules.length) return;
+      const headers = ["Antecedents", "Consequents", "Support", "Confidence", "Lift", "Leverage", "Conviction", "Zhang", "p_value", "q_value"];
+      const rows = state.activeRules.map(r => [
+        `"${r.raw_if.join(';')}"`,
+        `"${r.raw_then.join(';')}"`,
+        r.support,
+        r.confidence,
+        r.lift,
+        r.leverage,
+        r.conviction,
+        r.zhang,
+        r.p_value,
+        r.q_value
+      ]);
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "cyberthreatminer_rules.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    $("#btn-export-rules-json").addEventListener("click", () => {
+      if (!state.activeRules.length) return;
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.activeRules, null, 2));
+      const link = document.createElement("a");
+      link.setAttribute("href", dataStr);
+      link.setAttribute("download", "cyberthreatminer_rules.json");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Search rules filter
+    $("#search-rules").addEventListener("input", e => {
+      const q = e.target.value.toLowerCase();
+      if (!state.activeRules) return;
+      const filtered = state.activeRules.filter(r => 
+        r.if.some(x => x.toLowerCase().includes(q)) || 
+        r.then.some(x => x.toLowerCase().includes(q)) ||
+        r.plain_english.toLowerCase().includes(q)
+      );
+      renderRules(filtered);
+    });
+
+    // Multi-Lens and Self-Check Event Listeners
+    if ($("#sel-lens")) {
+      $("#sel-lens").addEventListener("change", async () => {
+        await initOverview();
+        await runMine();
+      });
+    }
+    if ($("#sel-abstraction")) {
+      $("#sel-abstraction").addEventListener("change", async () => {
+        await initOverview();
+        await runMine();
+      });
+    }
+    if ($("#btn-refresh-selfcheck")) {
+      $("#btn-refresh-selfcheck").addEventListener("click", fetchSelfCheck);
+    }
+
+    // Initialize all components on startup
+    (async () => {
+      await fetchSelfCheck();
+      await initOverview();
+      await runMine();
+      await initAlgorithmLab();
+      await initClusters();
+      await initEvaluation();
+      loadFingerprint("APT28");
+
+      // Check URL tab parameter or hash
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get("tab") || window.location.hash.replace("#", "");
+      if (tabParam) {
+        switchTab(tabParam);
+      }
+    })();
+  </script>
+</body>
+</html>

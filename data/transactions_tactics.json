@@ -1,0 +1,1984 @@
+{
+  "transactions": {
+    "APT-C-36": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT1": [
+      "Collection",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT12": [
+      "Command and Control",
+      "Execution",
+      "Initial Access"
+    ],
+    "APT18": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "APT19": [
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT28": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT29": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT3": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "APT30": [
+      "Execution",
+      "Initial Access"
+    ],
+    "APT32": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT33": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT37": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "APT38": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT39": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT41": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT42": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "APT5": [
+      "Collection",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Agrius": [
+      "Collection",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Ajax Security Team": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Execution",
+      "Initial Access"
+    ],
+    "Akira": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Andariel": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Aoqin Dragon": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Resource Development",
+      "Stealth"
+    ],
+    "AppleJeus": [
+      "Impact",
+      "Initial Access"
+    ],
+    "Aquatic Panda": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Axiom": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "BITTER": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "BRONZE BUTLER": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "BackdoorDiplomacy": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "BlackByte": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "BlackTech": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Blue Mockingbird": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "CURIUM": [
+      "Collection",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Reconnaissance",
+      "Resource Development"
+    ],
+    "Carbanak": [
+      "Command and Control",
+      "Defense Impairment",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Chimera": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Cinnamon Tempest": [
+      "Command and Control",
+      "Defense Impairment",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Cleaver": [
+      "Collection",
+      "Credential Access",
+      "Resource Development"
+    ],
+    "Cobalt Group": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Confucius": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Contagious Interview": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "CopyKittens": [
+      "Collection",
+      "Command and Control",
+      "Defense Impairment",
+      "Execution",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Daggerfly": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Dark Caracal": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "DarkHydrus": [
+      "Credential Access",
+      "Execution",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "DarkVishnya": [
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development"
+    ],
+    "Darkhotel": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Deep Panda": [
+      "Discovery",
+      "Execution",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Dragonfly": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "EXOTIC LILY": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Reconnaissance",
+      "Resource Development"
+    ],
+    "Earth Lusca": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Elderwood": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "Ember Bear": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Equation": [
+      "Discovery",
+      "Persistence",
+      "Stealth"
+    ],
+    "Evilnum": [
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "FIN10": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "FIN13": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "FIN4": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "FIN5": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "FIN6": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "FIN7": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "FIN8": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Ferocious Kitten": [
+      "Execution",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Fox Kitten": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "GALLIUM": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "GOLD SOUTHFIELD": [
+      "Collection",
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Stealth"
+    ],
+    "Gallmaker": [
+      "Collection",
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "Gamaredon Group": [
+      "Collection",
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Gorgon Group": [
+      "Command and Control",
+      "Defense Impairment",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Group5": [
+      "Collection",
+      "Credential Access",
+      "Stealth"
+    ],
+    "HAFNIUM": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "HEXANE": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Higaisa": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "INC Ransom": [
+      "Collection",
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Inception": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "IndigoZebra": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Resource Development"
+    ],
+    "Indrik Spider": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Ke3chang": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Kimsuky": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "LAPSUS$": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Lazarus Group": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "LazyScripter": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Leafminer": [
+      "Collection",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Leviathan": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Lotus Blossom": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "LuminousMoth": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Machete": [
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Magic Hound": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Malteiro": [
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Medusa Group": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Metador": [
+      "Command and Control",
+      "Execution",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "MirrorFace": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Mofang": [
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "Molerats": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Moonstone Sleet": [
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Moses Staff": [
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Resource Development",
+      "Stealth"
+    ],
+    "MoustachedBouncer": [
+      "Collection",
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "MuddyWater": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Mustang Panda": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Mustard Tempest": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Naikon": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Nomadic Octopus": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "OilRig": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Orangeworm": [
+      "Command and Control",
+      "Lateral Movement"
+    ],
+    "PLATINUM": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Execution",
+      "Initial Access",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "POLONIUM": [
+      "Command and Control",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "PROMETHIUM": [
+      "Command and Control",
+      "Defense Impairment",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Patchwork": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "PittyTiger": [
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Play": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Poseidon Group": [
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Stealth"
+    ],
+    "Putter Panda": [
+      "Defense Impairment",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "RTM": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Rancor": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "RedCurl": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "RedEcho": [
+      "Command and Control",
+      "Resource Development"
+    ],
+    "Rocke": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Saint Bear": [
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Salt Typhoon": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development"
+    ],
+    "Sandworm Team": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Scattered Spider": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Sea Turtle": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "ShinyHunters": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "SideCopy": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Sidewinder": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Stealth"
+    ],
+    "Silence": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Silent Librarian": [
+      "Collection",
+      "Credential Access",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "SilverTerrier": [
+      "Command and Control",
+      "Impact"
+    ],
+    "Sowbug": [
+      "Collection",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Stealth"
+    ],
+    "Star Blizzard": [
+      "Collection",
+      "Credential Access",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Stealth Falcon": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Persistence",
+      "Privilege Escalation"
+    ],
+    "Storm-0501": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Storm-1811": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Strider": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Persistence",
+      "Stealth"
+    ],
+    "Suckfly": [
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "TA2541": [
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "TA459": [
+      "Execution",
+      "Initial Access"
+    ],
+    "TA505": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "TA551": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Reconnaissance",
+      "Stealth"
+    ],
+    "TA577": [
+      "Execution",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "TA578": [
+      "Execution",
+      "Reconnaissance",
+      "Resource Development"
+    ],
+    "TeamPCP": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Execution",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "TeamTNT": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "The White Company": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "Threat Group-1314": [
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Threat Group-3390": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Thrip": [
+      "Command and Control",
+      "Execution",
+      "Exfiltration",
+      "Resource Development"
+    ],
+    "ToddyCat": [
+      "Collection",
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Tonto Team": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Transparent Tribe": [
+      "Command and Control",
+      "Execution",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Tropic Trooper": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Turla": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "UNC3886": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "VOID MANTICORE": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Velvet Ant": [
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Volatile Cedar": [
+      "Command and Control",
+      "Initial Access",
+      "Persistence",
+      "Reconnaissance"
+    ],
+    "Volt Typhoon": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "WIRTE": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Water Galura": [
+      "Impact",
+      "Resource Development"
+    ],
+    "Whitefly": [
+      "Command and Control",
+      "Credential Access",
+      "Execution",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Windigo": [
+      "Collection",
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access"
+    ],
+    "Windshift": [
+      "Command and Control",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Stealth"
+    ],
+    "Winnti Group": [
+      "Command and Control",
+      "Defense Impairment",
+      "Discovery",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Winter Vivern": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "Wizard Spider": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Impact",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ],
+    "ZIRCONIUM": [
+      "Command and Control",
+      "Credential Access",
+      "Discovery",
+      "Execution",
+      "Exfiltration",
+      "Initial Access",
+      "Persistence",
+      "Privilege Escalation",
+      "Reconnaissance",
+      "Resource Development",
+      "Stealth"
+    ],
+    "admin@338": [
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Stealth"
+    ],
+    "menuPass": [
+      "Collection",
+      "Command and Control",
+      "Credential Access",
+      "Defense Impairment",
+      "Discovery",
+      "Execution",
+      "Initial Access",
+      "Lateral Movement",
+      "Persistence",
+      "Privilege Escalation",
+      "Resource Development",
+      "Stealth"
+    ]
+  },
+  "techniques": {
+    "Privilege Escalation": {
+      "name": "Privilege Escalation",
+      "tactics": [
+        "Privilege Escalation"
+      ]
+    },
+    "Command and Control": {
+      "name": "Command and Control",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "Defense Impairment": {
+      "name": "Defense Impairment",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "Exfiltration": {
+      "name": "Exfiltration",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "Persistence": {
+      "name": "Persistence",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "Lateral Movement": {
+      "name": "Lateral Movement",
+      "tactics": [
+        "Lateral Movement"
+      ]
+    },
+    "Execution": {
+      "name": "Execution",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "Collection": {
+      "name": "Collection",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "Reconnaissance": {
+      "name": "Reconnaissance",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "Stealth": {
+      "name": "Stealth",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "Credential Access": {
+      "name": "Credential Access",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "Impact": {
+      "name": "Impact",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "Discovery": {
+      "name": "Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "Initial Access": {
+      "name": "Initial Access",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "Resource Development": {
+      "name": "Resource Development",
+      "tactics": [
+        "Resource Development"
+      ]
+    }
+  },
+  "metadata": {
+    "source": "data/enterprise-attack-v19.2.xlsx",
+    "version": "v19.2",
+    "lens": "groups",
+    "abstraction": "tactic",
+    "rollup_subtechniques": true,
+    "min_techniques_per_group": 2,
+    "min_technique_frequency": 1,
+    "num_groups": 166,
+    "num_techniques": 15,
+    "avg_basket_size": 9.22,
+    "min_basket_size": 2,
+    "max_basket_size": 15,
+    "sparsity_pct": 38.51,
+    "density_pct": 61.49,
+    "total_technique_instances": 1531,
+    "quality_report": {
+      "total_relationships_in_dataset": 20628,
+      "verified_uses_rows": 4628,
+      "dropped_orphaned_entities": 0,
+      "dropped_orphaned_techniques": 0,
+      "dropped_small_entities_count": 6,
+      "dropped_rare_items_count": 0
+    }
+  }
+}

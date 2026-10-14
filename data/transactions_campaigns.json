@@ -1,0 +1,2094 @@
+{
+  "transactions": {
+    "2015 Ukraine Electric Power Attack": [
+      "T1018",
+      "T1040",
+      "T1055",
+      "T1056",
+      "T1059",
+      "T1070",
+      "T1071",
+      "T1078",
+      "T1105",
+      "T1112",
+      "T1133",
+      "T1136",
+      "T1204",
+      "T1218",
+      "T1566",
+      "T1570",
+      "T1685"
+    ],
+    "2016 Ukraine Electric Power Attack": [
+      "T1003",
+      "T1018",
+      "T1021",
+      "T1027",
+      "T1036",
+      "T1047",
+      "T1059",
+      "T1098",
+      "T1110",
+      "T1136",
+      "T1505",
+      "T1543",
+      "T1554",
+      "T1570",
+      "T1685"
+    ],
+    "2022 Ukraine Electric Power Attack": [
+      "T1036",
+      "T1053",
+      "T1059",
+      "T1095",
+      "T1484",
+      "T1485",
+      "T1505",
+      "T1543",
+      "T1570",
+      "T1572"
+    ],
+    "2025 Poland Wiper Attacks": [
+      "T1003",
+      "T1006",
+      "T1016",
+      "T1021",
+      "T1027",
+      "T1036",
+      "T1046",
+      "T1048",
+      "T1049",
+      "T1053",
+      "T1057",
+      "T1059",
+      "T1074",
+      "T1078",
+      "T1083",
+      "T1090",
+      "T1102",
+      "T1105",
+      "T1110",
+      "T1113",
+      "T1114",
+      "T1133",
+      "T1140",
+      "T1484",
+      "T1485",
+      "T1490",
+      "T1495",
+      "T1529",
+      "T1530",
+      "T1550",
+      "T1555",
+      "T1556",
+      "T1558",
+      "T1560",
+      "T1567",
+      "T1570",
+      "T1571",
+      "T1583",
+      "T1584",
+      "T1587",
+      "T1588",
+      "T1590",
+      "T1602",
+      "T1608",
+      "T1686"
+    ],
+    "3CX Supply Chain Attack": [
+      "T1027",
+      "T1055",
+      "T1071",
+      "T1078",
+      "T1102",
+      "T1189",
+      "T1195",
+      "T1203",
+      "T1217",
+      "T1218",
+      "T1543",
+      "T1546",
+      "T1553",
+      "T1559",
+      "T1573",
+      "T1574",
+      "T1620",
+      "T1678"
+    ],
+    "APT28 Nearest Neighbor Campaign": [
+      "T1003",
+      "T1006",
+      "T1016",
+      "T1021",
+      "T1059",
+      "T1074",
+      "T1090",
+      "T1110",
+      "T1140",
+      "T1560",
+      "T1561",
+      "T1567",
+      "T1584",
+      "T1669",
+      "T1686"
+    ],
+    "APT41 DUST": [
+      "T1027",
+      "T1036",
+      "T1070",
+      "T1071",
+      "T1074",
+      "T1102",
+      "T1105",
+      "T1119",
+      "T1213",
+      "T1505",
+      "T1543",
+      "T1553",
+      "T1560",
+      "T1567",
+      "T1569",
+      "T1573",
+      "T1574",
+      "T1583",
+      "T1586",
+      "T1588",
+      "T1593",
+      "T1594",
+      "T1596"
+    ],
+    "Anthropic AI-orchestrated Campaign": [
+      "T1005",
+      "T1016",
+      "T1046",
+      "T1049",
+      "T1074",
+      "T1078",
+      "T1082",
+      "T1083",
+      "T1087",
+      "T1119",
+      "T1136",
+      "T1190",
+      "T1213",
+      "T1552",
+      "T1567",
+      "T1584",
+      "T1587",
+      "T1588",
+      "T1590",
+      "T1592",
+      "T1595",
+      "T1683"
+    ],
+    "ArcaneDoor": [
+      "T1014",
+      "T1020",
+      "T1036",
+      "T1037",
+      "T1040",
+      "T1041",
+      "T1055",
+      "T1059",
+      "T1070",
+      "T1071",
+      "T1082",
+      "T1102",
+      "T1119",
+      "T1133",
+      "T1140",
+      "T1190",
+      "T1556",
+      "T1557",
+      "T1583",
+      "T1587",
+      "T1653",
+      "T1685",
+      "T1690"
+    ],
+    "C0010": [
+      "T1105",
+      "T1189",
+      "T1583",
+      "T1584",
+      "T1587",
+      "T1588",
+      "T1608"
+    ],
+    "C0011": [
+      "T1059",
+      "T1204",
+      "T1566",
+      "T1583",
+      "T1587",
+      "T1608"
+    ],
+    "C0015": [
+      "T1005",
+      "T1016",
+      "T1018",
+      "T1021",
+      "T1027",
+      "T1030",
+      "T1036",
+      "T1039",
+      "T1047",
+      "T1055",
+      "T1057",
+      "T1059",
+      "T1069",
+      "T1074",
+      "T1083",
+      "T1105",
+      "T1124",
+      "T1135",
+      "T1204",
+      "T1218",
+      "T1219",
+      "T1482",
+      "T1486",
+      "T1553",
+      "T1566",
+      "T1567",
+      "T1570",
+      "T1588"
+    ],
+    "C0017": [
+      "T1001",
+      "T1003",
+      "T1005",
+      "T1016",
+      "T1027",
+      "T1033",
+      "T1036",
+      "T1041",
+      "T1048",
+      "T1053",
+      "T1059",
+      "T1071",
+      "T1074",
+      "T1090",
+      "T1102",
+      "T1105",
+      "T1134",
+      "T1140",
+      "T1190",
+      "T1505",
+      "T1560",
+      "T1567",
+      "T1574",
+      "T1588",
+      "T1680"
+    ],
+    "C0018": [
+      "T1016",
+      "T1021",
+      "T1027",
+      "T1033",
+      "T1036",
+      "T1046",
+      "T1047",
+      "T1059",
+      "T1071",
+      "T1072",
+      "T1105",
+      "T1190",
+      "T1218",
+      "T1219",
+      "T1486",
+      "T1570",
+      "T1571",
+      "T1588"
+    ],
+    "C0021": [
+      "T1027",
+      "T1059",
+      "T1071",
+      "T1095",
+      "T1105",
+      "T1140",
+      "T1204",
+      "T1218",
+      "T1566",
+      "T1573",
+      "T1583",
+      "T1584",
+      "T1588",
+      "T1608"
+    ],
+    "C0026": [
+      "T1005",
+      "T1030",
+      "T1105",
+      "T1560",
+      "T1568",
+      "T1583"
+    ],
+    "C0027": [
+      "T1003",
+      "T1021",
+      "T1046",
+      "T1047",
+      "T1069",
+      "T1078",
+      "T1087",
+      "T1090",
+      "T1098",
+      "T1102",
+      "T1105",
+      "T1133",
+      "T1190",
+      "T1213",
+      "T1219",
+      "T1530",
+      "T1566",
+      "T1572",
+      "T1578",
+      "T1588",
+      "T1589",
+      "T1598",
+      "T1621",
+      "T1684"
+    ],
+    "C0032": [
+      "T1003",
+      "T1021",
+      "T1036",
+      "T1053",
+      "T1059",
+      "T1070",
+      "T1074",
+      "T1078",
+      "T1133",
+      "T1505",
+      "T1546",
+      "T1571",
+      "T1572",
+      "T1583",
+      "T1588"
+    ],
+    "CostaRicto": [
+      "T1005",
+      "T1046",
+      "T1053",
+      "T1090",
+      "T1105",
+      "T1133",
+      "T1572",
+      "T1583",
+      "T1587",
+      "T1588"
+    ],
+    "Cutting Edge": [
+      "T1003",
+      "T1005",
+      "T1021",
+      "T1027",
+      "T1055",
+      "T1056",
+      "T1059",
+      "T1070",
+      "T1071",
+      "T1078",
+      "T1082",
+      "T1095",
+      "T1105",
+      "T1190",
+      "T1205",
+      "T1505",
+      "T1554",
+      "T1560",
+      "T1572",
+      "T1584",
+      "T1588",
+      "T1594",
+      "T1595",
+      "T1685"
+    ],
+    "FLORAHOX Activity": [
+      "T1059",
+      "T1090",
+      "T1190",
+      "T1583",
+      "T1584"
+    ],
+    "Frankenstein": [
+      "T1005",
+      "T1016",
+      "T1020",
+      "T1027",
+      "T1033",
+      "T1036",
+      "T1041",
+      "T1047",
+      "T1053",
+      "T1057",
+      "T1059",
+      "T1071",
+      "T1082",
+      "T1105",
+      "T1119",
+      "T1127",
+      "T1140",
+      "T1203",
+      "T1204",
+      "T1221",
+      "T1497",
+      "T1518",
+      "T1566",
+      "T1573",
+      "T1588"
+    ],
+    "FrostyGoop Incident": [
+      "T1003",
+      "T1071",
+      "T1190",
+      "T1505",
+      "T1689"
+    ],
+    "FunnyDream": [
+      "T1016",
+      "T1018",
+      "T1047",
+      "T1049",
+      "T1057",
+      "T1059",
+      "T1082",
+      "T1105",
+      "T1560",
+      "T1583",
+      "T1585",
+      "T1588"
+    ],
+    "HomeLand Justice": [
+      "T1003",
+      "T1021",
+      "T1036",
+      "T1041",
+      "T1046",
+      "T1047",
+      "T1059",
+      "T1078",
+      "T1087",
+      "T1098",
+      "T1105",
+      "T1114",
+      "T1134",
+      "T1190",
+      "T1486",
+      "T1505",
+      "T1561",
+      "T1570",
+      "T1588",
+      "T1685"
+    ],
+    "Indian Critical Infrastructure Intrusions": [
+      "T1071",
+      "T1568",
+      "T1571",
+      "T1573",
+      "T1583",
+      "T1584",
+      "T1588",
+      "T1599"
+    ],
+    "J-magic Campaign": [
+      "T1036",
+      "T1583",
+      "T1587",
+      "T1588"
+    ],
+    "Juicy Mix": [
+      "T1053",
+      "T1059",
+      "T1071",
+      "T1074",
+      "T1082",
+      "T1132",
+      "T1140",
+      "T1217",
+      "T1518",
+      "T1555",
+      "T1584",
+      "T1587"
+    ],
+    "KV Botnet Activity": [
+      "T1016",
+      "T1036",
+      "T1055",
+      "T1057",
+      "T1059",
+      "T1070",
+      "T1082",
+      "T1083",
+      "T1095",
+      "T1105",
+      "T1222",
+      "T1518",
+      "T1546",
+      "T1564",
+      "T1571",
+      "T1573",
+      "T1583",
+      "T1584",
+      "T1685"
+    ],
+    "Leviathan Australian Intrusions": [
+      "T1018",
+      "T1021",
+      "T1041",
+      "T1056",
+      "T1068",
+      "T1074",
+      "T1078",
+      "T1082",
+      "T1111",
+      "T1135",
+      "T1190",
+      "T1212",
+      "T1213",
+      "T1482",
+      "T1505",
+      "T1528",
+      "T1552",
+      "T1558",
+      "T1588",
+      "T1594",
+      "T1615",
+      "T1686"
+    ],
+    "Night Dragon": [
+      "T1003",
+      "T1005",
+      "T1008",
+      "T1027",
+      "T1033",
+      "T1059",
+      "T1071",
+      "T1074",
+      "T1078",
+      "T1083",
+      "T1105",
+      "T1110",
+      "T1112",
+      "T1114",
+      "T1133",
+      "T1190",
+      "T1204",
+      "T1219",
+      "T1550",
+      "T1566",
+      "T1568",
+      "T1583",
+      "T1584",
+      "T1588",
+      "T1608",
+      "T1685"
+    ],
+    "Operation AkaiRy\u016b": [
+      "T1016",
+      "T1036",
+      "T1047",
+      "T1059",
+      "T1070",
+      "T1082",
+      "T1083",
+      "T1127",
+      "T1137",
+      "T1204",
+      "T1217",
+      "T1219",
+      "T1553",
+      "T1566",
+      "T1585",
+      "T1586",
+      "T1587",
+      "T1588",
+      "T1608",
+      "T1685"
+    ],
+    "Operation CuckooBees": [
+      "T1003",
+      "T1005",
+      "T1007",
+      "T1016",
+      "T1018",
+      "T1027",
+      "T1033",
+      "T1036",
+      "T1049",
+      "T1053",
+      "T1057",
+      "T1059",
+      "T1069",
+      "T1071",
+      "T1078",
+      "T1082",
+      "T1083",
+      "T1087",
+      "T1120",
+      "T1124",
+      "T1133",
+      "T1135",
+      "T1190",
+      "T1201",
+      "T1505",
+      "T1543",
+      "T1547",
+      "T1560",
+      "T1574",
+      "T1588"
+    ],
+    "Operation Digital Eye": [
+      "T1003",
+      "T1018",
+      "T1021",
+      "T1033",
+      "T1036",
+      "T1059",
+      "T1069",
+      "T1070",
+      "T1087",
+      "T1098",
+      "T1106",
+      "T1190",
+      "T1219",
+      "T1505",
+      "T1543",
+      "T1550",
+      "T1569",
+      "T1588",
+      "T1591",
+      "T1614",
+      "T1665"
+    ],
+    "Operation Dream Job": [
+      "T1005",
+      "T1027",
+      "T1036",
+      "T1041",
+      "T1047",
+      "T1053",
+      "T1059",
+      "T1070",
+      "T1071",
+      "T1083",
+      "T1087",
+      "T1105",
+      "T1106",
+      "T1110",
+      "T1204",
+      "T1218",
+      "T1220",
+      "T1221",
+      "T1497",
+      "T1505",
+      "T1534",
+      "T1547",
+      "T1553",
+      "T1560",
+      "T1566",
+      "T1567",
+      "T1573",
+      "T1583",
+      "T1584",
+      "T1585",
+      "T1587",
+      "T1588",
+      "T1589",
+      "T1591",
+      "T1593",
+      "T1608",
+      "T1614",
+      "T1622",
+      "T1684"
+    ],
+    "Operation Dust Storm": [
+      "T1027",
+      "T1036",
+      "T1059",
+      "T1140",
+      "T1189",
+      "T1203",
+      "T1204",
+      "T1218",
+      "T1518",
+      "T1566",
+      "T1568",
+      "T1583",
+      "T1585"
+    ],
+    "Operation Ghost": [
+      "T1001",
+      "T1027",
+      "T1078",
+      "T1102",
+      "T1546",
+      "T1583",
+      "T1585",
+      "T1587"
+    ],
+    "Operation Honeybee": [
+      "T1005",
+      "T1027",
+      "T1036",
+      "T1041",
+      "T1057",
+      "T1059",
+      "T1070",
+      "T1071",
+      "T1074",
+      "T1082",
+      "T1083",
+      "T1105",
+      "T1106",
+      "T1112",
+      "T1140",
+      "T1204",
+      "T1543",
+      "T1548",
+      "T1553",
+      "T1560",
+      "T1569",
+      "T1574",
+      "T1583",
+      "T1585",
+      "T1588"
+    ],
+    "Operation MidnightEclipse": [
+      "T1003",
+      "T1005",
+      "T1021",
+      "T1053",
+      "T1059",
+      "T1071",
+      "T1074",
+      "T1078",
+      "T1090",
+      "T1105",
+      "T1190",
+      "T1559",
+      "T1584",
+      "T1588"
+    ],
+    "Operation Sharpshooter": [
+      "T1036",
+      "T1055",
+      "T1059",
+      "T1090",
+      "T1105",
+      "T1106",
+      "T1204",
+      "T1547",
+      "T1559",
+      "T1583",
+      "T1584",
+      "T1587",
+      "T1608"
+    ],
+    "Operation Spalax": [
+      "T1027",
+      "T1059",
+      "T1102",
+      "T1140",
+      "T1204",
+      "T1218",
+      "T1497",
+      "T1566",
+      "T1568",
+      "T1583",
+      "T1588",
+      "T1608"
+    ],
+    "Operation Wocao": [
+      "T1001",
+      "T1003",
+      "T1005",
+      "T1007",
+      "T1012",
+      "T1016",
+      "T1018",
+      "T1021",
+      "T1027",
+      "T1033",
+      "T1036",
+      "T1041",
+      "T1046",
+      "T1047",
+      "T1049",
+      "T1053",
+      "T1055",
+      "T1056",
+      "T1057",
+      "T1059",
+      "T1069",
+      "T1070",
+      "T1071",
+      "T1074",
+      "T1078",
+      "T1082",
+      "T1083",
+      "T1087",
+      "T1090",
+      "T1095",
+      "T1105",
+      "T1106",
+      "T1111",
+      "T1112",
+      "T1115",
+      "T1119",
+      "T1120",
+      "T1124",
+      "T1133",
+      "T1135",
+      "T1190",
+      "T1505",
+      "T1518",
+      "T1552",
+      "T1555",
+      "T1558",
+      "T1560",
+      "T1569",
+      "T1570",
+      "T1571",
+      "T1573",
+      "T1583",
+      "T1585",
+      "T1587",
+      "T1588",
+      "T1589",
+      "T1680",
+      "T1685",
+      "T1686"
+    ],
+    "Outer Space": [
+      "T1027",
+      "T1059",
+      "T1071",
+      "T1105",
+      "T1217",
+      "T1584",
+      "T1585",
+      "T1587"
+    ],
+    "Pikabot Distribution February 2024": [
+      "T1059",
+      "T1566",
+      "T1574"
+    ],
+    "Quad7 Activity": [
+      "T1027",
+      "T1059",
+      "T1071",
+      "T1090",
+      "T1105",
+      "T1110",
+      "T1190",
+      "T1571",
+      "T1584",
+      "T1589",
+      "T1665",
+      "T1685"
+    ],
+    "RedDelta Modified PlugX Infection Chain Operations": [
+      "T1027",
+      "T1036",
+      "T1059",
+      "T1071",
+      "T1082",
+      "T1090",
+      "T1095",
+      "T1203",
+      "T1204",
+      "T1218",
+      "T1480",
+      "T1547",
+      "T1553",
+      "T1564",
+      "T1566",
+      "T1574",
+      "T1583",
+      "T1588",
+      "T1608"
+    ],
+    "RedPenguin": [
+      "T1014",
+      "T1016",
+      "T1027",
+      "T1036",
+      "T1040",
+      "T1041",
+      "T1055",
+      "T1057",
+      "T1059",
+      "T1070",
+      "T1078",
+      "T1090",
+      "T1095",
+      "T1104",
+      "T1105",
+      "T1140",
+      "T1203",
+      "T1205",
+      "T1554",
+      "T1571",
+      "T1573",
+      "T1587",
+      "T1690"
+    ],
+    "SPACEHOP Activity": [
+      "T1090",
+      "T1190",
+      "T1583",
+      "T1588"
+    ],
+    "Salesforce Data Exfiltration": [
+      "T1020",
+      "T1036",
+      "T1059",
+      "T1078",
+      "T1083",
+      "T1090",
+      "T1213",
+      "T1567",
+      "T1585",
+      "T1586",
+      "T1587",
+      "T1588",
+      "T1598",
+      "T1608",
+      "T1671",
+      "T1684"
+    ],
+    "ShadowRay": [
+      "T1003",
+      "T1016",
+      "T1027",
+      "T1059",
+      "T1068",
+      "T1105",
+      "T1190",
+      "T1496",
+      "T1546",
+      "T1588"
+    ],
+    "SharePoint ToolShell Exploitation": [
+      "T1003",
+      "T1005",
+      "T1027",
+      "T1033",
+      "T1041",
+      "T1047",
+      "T1053",
+      "T1059",
+      "T1071",
+      "T1074",
+      "T1082",
+      "T1083",
+      "T1090",
+      "T1105",
+      "T1112",
+      "T1119",
+      "T1140",
+      "T1190",
+      "T1484",
+      "T1486",
+      "T1505",
+      "T1552",
+      "T1569",
+      "T1570",
+      "T1572",
+      "T1583",
+      "T1585",
+      "T1588",
+      "T1595",
+      "T1620",
+      "T1657",
+      "T1685"
+    ],
+    "SolarWinds Compromise": [
+      "T1003",
+      "T1005",
+      "T1016",
+      "T1018",
+      "T1021",
+      "T1036",
+      "T1047",
+      "T1048",
+      "T1053",
+      "T1057",
+      "T1059",
+      "T1069",
+      "T1070",
+      "T1071",
+      "T1074",
+      "T1078",
+      "T1083",
+      "T1087",
+      "T1090",
+      "T1098",
+      "T1105",
+      "T1114",
+      "T1133",
+      "T1140",
+      "T1190",
+      "T1195",
+      "T1199",
+      "T1213",
+      "T1218",
+      "T1482",
+      "T1484",
+      "T1539",
+      "T1546",
+      "T1550",
+      "T1552",
+      "T1553",
+      "T1555",
+      "T1558",
+      "T1560",
+      "T1568",
+      "T1583",
+      "T1584",
+      "T1587",
+      "T1589",
+      "T1606",
+      "T1665",
+      "T1680",
+      "T1685",
+      "T1686"
+    ],
+    "Triton Safety Instrumented System Attack": [
+      "T1003",
+      "T1027",
+      "T1036",
+      "T1053",
+      "T1056",
+      "T1059",
+      "T1573",
+      "T1587",
+      "T1588",
+      "T1595"
+    ],
+    "Versa Director Zero Day Exploitation": [
+      "T1056",
+      "T1071",
+      "T1095",
+      "T1190",
+      "T1505",
+      "T1573",
+      "T1584",
+      "T1587"
+    ],
+    "Water Curupira Pikabot Distribution": [
+      "T1059",
+      "T1105",
+      "T1140",
+      "T1204",
+      "T1218",
+      "T1566",
+      "T1589"
+    ]
+  },
+  "techniques": {
+    "T1033": {
+      "name": "System Owner/User Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1591": {
+      "name": "Gather Victim Org Information",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1083": {
+      "name": "File and Directory Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1140": {
+      "name": "Deobfuscate/Decode Files or Information",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1055": {
+      "name": "Process Injection",
+      "tactics": [
+        "Privilege Escalation",
+        "Stealth"
+      ]
+    },
+    "T1583": {
+      "name": "Acquire Infrastructure",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1087": {
+      "name": "Account Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1212": {
+      "name": "Exploitation for Credential Access",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1543": {
+      "name": "Create or Modify System Process",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1683": {
+      "name": "Generate Content",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1105": {
+      "name": "Ingress Tool Transfer",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1098": {
+      "name": "Account Manipulation",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1120": {
+      "name": "Peripheral Device Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1686": {
+      "name": "Disable or Modify System Firewall",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1068": {
+      "name": "Exploitation for Privilege Escalation",
+      "tactics": [
+        "Privilege Escalation"
+      ]
+    },
+    "T1189": {
+      "name": "Drive-by Compromise",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1570": {
+      "name": "Lateral Tool Transfer",
+      "tactics": [
+        "Lateral Movement"
+      ]
+    },
+    "T1203": {
+      "name": "Exploitation for Client Execution",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1690": {
+      "name": "Prevent Command History Logging",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1529": {
+      "name": "System Shutdown/Reboot",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1113": {
+      "name": "Screen Capture",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1056": {
+      "name": "Input Capture",
+      "tactics": [
+        "Collection",
+        "Credential Access"
+      ]
+    },
+    "T1560": {
+      "name": "Archive Collected Data",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1584": {
+      "name": "Compromise Infrastructure",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1680": {
+      "name": "Local Storage Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1678": {
+      "name": "Delay Execution",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1132": {
+      "name": "Data Encoding",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1505": {
+      "name": "Server Software Component",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1558": {
+      "name": "Steal or Forge Kerberos Tickets",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1550": {
+      "name": "Use Alternate Authentication Material",
+      "tactics": [
+        "Lateral Movement"
+      ]
+    },
+    "T1586": {
+      "name": "Compromise Accounts",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1072": {
+      "name": "Software Deployment Tools",
+      "tactics": [
+        "Execution",
+        "Lateral Movement"
+      ]
+    },
+    "T1568": {
+      "name": "Dynamic Resolution",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1222": {
+      "name": "File and Directory Permissions Modification",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1213": {
+      "name": "Data from Information Repositories",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1684": {
+      "name": "Social Engineering",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1095": {
+      "name": "Non-Application Layer Protocol",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1218": {
+      "name": "System Binary Proxy Execution",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1567": {
+      "name": "Exfiltration Over Web Service",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "T1195": {
+      "name": "Supply Chain Compromise",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1554": {
+      "name": "Compromise Host Software Binary",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1621": {
+      "name": "Multi-Factor Authentication Request Generation",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1136": {
+      "name": "Create Account",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1016": {
+      "name": "System Network Configuration Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1588": {
+      "name": "Obtain Capabilities",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1566": {
+      "name": "Phishing",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1037": {
+      "name": "Boot or Logon Initialization Scripts",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1557": {
+      "name": "Adversary-in-the-Middle",
+      "tactics": [
+        "Collection",
+        "Credential Access"
+      ]
+    },
+    "T1480": {
+      "name": "Execution Guardrails",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1497": {
+      "name": "Virtualization/Sandbox Evasion",
+      "tactics": [
+        "Discovery",
+        "Stealth"
+      ]
+    },
+    "T1552": {
+      "name": "Unsecured Credentials",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1040": {
+      "name": "Network Sniffing",
+      "tactics": [
+        "Credential Access",
+        "Discovery"
+      ]
+    },
+    "T1021": {
+      "name": "Remote Services",
+      "tactics": [
+        "Lateral Movement"
+      ]
+    },
+    "T1220": {
+      "name": "XSL Script Processing",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1585": {
+      "name": "Establish Accounts",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1048": {
+      "name": "Exfiltration Over Alternative Protocol",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "T1620": {
+      "name": "Reflective Code Loading",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1657": {
+      "name": "Financial Theft",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1548": {
+      "name": "Abuse Elevation Control Mechanism",
+      "tactics": [
+        "Privilege Escalation"
+      ]
+    },
+    "T1569": {
+      "name": "System Services",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1071": {
+      "name": "Application Layer Protocol",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1204": {
+      "name": "User Execution",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1608": {
+      "name": "Stage Capabilities",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1119": {
+      "name": "Automated Collection",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1593": {
+      "name": "Search Open Websites/Domains",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1561": {
+      "name": "Disk Wipe",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1046": {
+      "name": "Network Service Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1671": {
+      "name": "Cloud Application Integration",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1592": {
+      "name": "Gather Victim Host Information",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1115": {
+      "name": "Clipboard Data",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1008": {
+      "name": "Fallback Channels",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1598": {
+      "name": "Phishing for Information",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1496": {
+      "name": "Resource Hijacking",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1653": {
+      "name": "Power Settings",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1039": {
+      "name": "Data from Network Shared Drive",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1547": {
+      "name": "Boot or Logon Autostart Execution",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1589": {
+      "name": "Gather Victim Identity Information",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1036": {
+      "name": "Masquerading",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1133": {
+      "name": "External Remote Services",
+      "tactics": [
+        "Initial Access",
+        "Persistence"
+      ]
+    },
+    "T1573": {
+      "name": "Encrypted Channel",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1574": {
+      "name": "Hijack Execution Flow",
+      "tactics": [
+        "Execution",
+        "Stealth"
+      ]
+    },
+    "T1090": {
+      "name": "Proxy",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1124": {
+      "name": "System Time Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1053": {
+      "name": "Scheduled Task/Job",
+      "tactics": [
+        "Execution",
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1596": {
+      "name": "Search Open Technical Databases",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1495": {
+      "name": "Firmware Corruption",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1669": {
+      "name": "Wi-Fi Networks",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1106": {
+      "name": "Native API",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1539": {
+      "name": "Steal Web Session Cookie",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1030": {
+      "name": "Data Transfer Size Limits",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "T1594": {
+      "name": "Search Victim-Owned Websites",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1201": {
+      "name": "Password Policy Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1127": {
+      "name": "Trusted Developer Utilities Proxy Execution",
+      "tactics": [
+        "Execution",
+        "Stealth"
+      ]
+    },
+    "T1049": {
+      "name": "System Network Connections Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1546": {
+      "name": "Event Triggered Execution",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ]
+    },
+    "T1571": {
+      "name": "Non-Standard Port",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1484": {
+      "name": "Domain or Tenant Policy Modification",
+      "tactics": [
+        "Defense Impairment",
+        "Privilege Escalation"
+      ]
+    },
+    "T1005": {
+      "name": "Data from Local System",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1003": {
+      "name": "OS Credential Dumping",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1078": {
+      "name": "Valid Accounts",
+      "tactics": [
+        "Initial Access",
+        "Persistence",
+        "Privilege Escalation",
+        "Stealth"
+      ]
+    },
+    "T1027": {
+      "name": "Obfuscated Files or Information",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1006": {
+      "name": "Direct Volume Access",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1614": {
+      "name": "System Location Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1041": {
+      "name": "Exfiltration Over C2 Channel",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "T1590": {
+      "name": "Gather Victim Network Information",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1217": {
+      "name": "Browser Information Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1685": {
+      "name": "Disable or Modify Tools",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1069": {
+      "name": "Permission Groups Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1104": {
+      "name": "Multi-Stage Channels",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1485": {
+      "name": "Data Destruction",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1572": {
+      "name": "Protocol Tunneling",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1578": {
+      "name": "Modify Cloud Compute Infrastructure",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1615": {
+      "name": "Group Policy Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1556": {
+      "name": "Modify Authentication Process",
+      "tactics": [
+        "Credential Access",
+        "Defense Impairment",
+        "Persistence"
+      ]
+    },
+    "T1057": {
+      "name": "Process Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1665": {
+      "name": "Hide Infrastructure",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1482": {
+      "name": "Domain Trust Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1190": {
+      "name": "Exploit Public-Facing Application",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1110": {
+      "name": "Brute Force",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1047": {
+      "name": "Windows Management Instrumentation",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1102": {
+      "name": "Web Service",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1606": {
+      "name": "Forge Web Credentials",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1074": {
+      "name": "Data Staged",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1001": {
+      "name": "Data Obfuscation",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1135": {
+      "name": "Network Share Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1602": {
+      "name": "Data from Configuration Repository",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1490": {
+      "name": "Inhibit System Recovery",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1020": {
+      "name": "Automated Exfiltration",
+      "tactics": [
+        "Exfiltration"
+      ]
+    },
+    "T1599": {
+      "name": "Network Boundary Bridging",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1564": {
+      "name": "Hide Artifacts",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1559": {
+      "name": "Inter-Process Communication",
+      "tactics": [
+        "Execution"
+      ]
+    },
+    "T1689": {
+      "name": "Downgrade Attack",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1137": {
+      "name": "Office Application Startup",
+      "tactics": [
+        "Persistence"
+      ]
+    },
+    "T1070": {
+      "name": "Indicator Removal",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1114": {
+      "name": "Email Collection",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1205": {
+      "name": "Traffic Signaling",
+      "tactics": [
+        "Command and Control",
+        "Persistence",
+        "Stealth"
+      ]
+    },
+    "T1486": {
+      "name": "Data Encrypted for Impact",
+      "tactics": [
+        "Impact"
+      ]
+    },
+    "T1221": {
+      "name": "Template Injection",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1518": {
+      "name": "Software Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1534": {
+      "name": "Internal Spearphishing",
+      "tactics": [
+        "Lateral Movement"
+      ]
+    },
+    "T1622": {
+      "name": "Debugger Evasion",
+      "tactics": [
+        "Discovery",
+        "Stealth"
+      ]
+    },
+    "T1134": {
+      "name": "Access Token Manipulation",
+      "tactics": [
+        "Privilege Escalation",
+        "Stealth"
+      ]
+    },
+    "T1553": {
+      "name": "Subvert Trust Controls",
+      "tactics": [
+        "Defense Impairment"
+      ]
+    },
+    "T1018": {
+      "name": "Remote System Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1528": {
+      "name": "Steal Application Access Token",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1012": {
+      "name": "Query Registry",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1530": {
+      "name": "Data from Cloud Storage",
+      "tactics": [
+        "Collection"
+      ]
+    },
+    "T1219": {
+      "name": "Remote Access Tools",
+      "tactics": [
+        "Command and Control"
+      ]
+    },
+    "T1007": {
+      "name": "System Service Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1082": {
+      "name": "System Information Discovery",
+      "tactics": [
+        "Discovery"
+      ]
+    },
+    "T1112": {
+      "name": "Modify Registry",
+      "tactics": [
+        "Defense Impairment",
+        "Persistence"
+      ]
+    },
+    "T1555": {
+      "name": "Credentials from Password Stores",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1111": {
+      "name": "Multi-Factor Authentication Interception",
+      "tactics": [
+        "Credential Access"
+      ]
+    },
+    "T1199": {
+      "name": "Trusted Relationship",
+      "tactics": [
+        "Initial Access"
+      ]
+    },
+    "T1595": {
+      "name": "Active Scanning",
+      "tactics": [
+        "Reconnaissance"
+      ]
+    },
+    "T1587": {
+      "name": "Develop Capabilities",
+      "tactics": [
+        "Resource Development"
+      ]
+    },
+    "T1014": {
+      "name": "Rootkit",
+      "tactics": [
+        "Stealth"
+      ]
+    },
+    "T1059": {
+      "name": "Command and Scripting Interpreter",
+      "tactics": [
+        "Execution"
+      ]
+    }
+  },
+  "metadata": {
+    "source": "data/enterprise-attack-v19.2.xlsx",
+    "version": "v19.2",
+    "lens": "campaigns",
+    "abstraction": "parent",
+    "rollup_subtechniques": true,
+    "min_techniques_per_group": 2,
+    "min_technique_frequency": 1,
+    "num_groups": 55,
+    "num_techniques": 158,
+    "avg_basket_size": 17.78,
+    "min_basket_size": 3,
+    "max_basket_size": 59,
+    "sparsity_pct": 88.75,
+    "density_pct": 11.25,
+    "total_technique_instances": 978,
+    "quality_report": {
+      "total_relationships_in_dataset": 20628,
+      "verified_uses_rows": 1146,
+      "dropped_orphaned_entities": 0,
+      "dropped_orphaned_techniques": 0,
+      "dropped_small_entities_count": 0,
+      "dropped_rare_items_count": 0
+    }
+  }
+}
